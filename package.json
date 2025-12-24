@@ -1,0 +1,26 @@
+{
+  "name": "next_generation",
+  "version": "1.0.0",
+  "description": "Website for Next Generation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Schwanti/next_generation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Schwanti/next_generation/issues"
+  },
+  "homepage": "https://github.com/Schwanti/next_generation#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "daisyui": "^5.5.14",
+    "tailwindcss": "^4.1.18"
+  }
+}
