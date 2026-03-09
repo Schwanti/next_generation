@@ -9,6 +9,8 @@
 
 body {
   font-family: 'Barlow', 'Barlow Condensed', sans-serif;
+  background-color: #fff;
+  color: #000;
 }
 
 /* Page Layout */
@@ -119,6 +121,17 @@ body {
 @media (min-width: 768px) {
   .nav {
     padding: 0 2.5rem;
+  }
+}
+
+/* disable dark-mode styles by overriding */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+  .nav {
+    background-color: rgba(20, 5, 40, 0.92) !important;
   }
 }
 
