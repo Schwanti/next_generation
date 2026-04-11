@@ -714,3 +714,56 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Instagram Gallery Section */
+.instagram-section {
+  background: linear-gradient(180deg, #fafafa 0%, #fff 100%);
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.instagram-header {
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.instagram-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: #e53e1a;
+  margin-bottom: 0.75rem;
+}
+
+.instagram-label svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.instagram-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  color: #1a0a2e;
+}
+
+.instagram-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.elfsight-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.elfsight-container .elfsight-app {
+  display: flex;
+  justify-content: center;
+}
