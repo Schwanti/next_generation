@@ -1,20 +1,13 @@
-import { NavBar } from "@/components/navbar";
 import Image from "next/image";
 
 export function Hero() {
-
   return (
-    <div className="page-wrapper">
-      <div className="hero-section" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        {/* Background */}
+    <div className="hero-section">
         <div className="background-overlay" />
-
-        {/* Light beams */}
         <div className="light-beam beam-1" />
         <div className="light-beam beam-2" />
         <div className="light-beam beam-3" />
 
-        {/* Floating particles */}
         <div className="particles">
           {[...Array(12)].map((_, i) => (
             <div
@@ -32,9 +25,6 @@ export function Hero() {
           ))}
         </div>
 
-        <NavBar />
-
-        {/* Hero Content */}
         <div className="hero-content">
             <Image src="/next_generation_logo.png" alt="Logo" width={400} height={400} className="hero-logo" />
             <h1 className="hero-title">
@@ -50,13 +40,11 @@ export function Hero() {
             </div>
         </div>
 
-        {/* Scroll indicator */}
-        <a href="#services" className="scroll-indicator" style={{ cursor: 'pointer' }}>
+        <a href="#services" className="scroll-indicator">
           <svg viewBox="0 0 24 24" strokeWidth="2">
             <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </a>
       </div>
-    </div>
   );
 }
