@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/big-pickle",
+  "default_agent": "general",
+  "instructions": ["next-generation/AGENTS.md"],
+  "agent": {
+    "plan": {
+      "temperature": 0.2,
+      "steps": 10,
+      "permission": { "edit": "deny", "bash": "deny" }
+    },
+    "general": {
+      "temperature": 0.5,
+      "steps": 30
+    },
+    "explore": {
+      "temperature": 0.3,
+      "steps": 20
+    },
+    "build": {
+      "temperature": 0.3,
+      "steps": 30,
+      "permission": { "edit": "allow", "bash": "allow" }
+    }
+  },
+  "command": {
+    "dev": {
+      "description": "Start the Next.js dev server",
+      "prompt": "Run `npm run dev` in the next-generation directory"
+    },
+    "build": {
+      "description": "Build for production",
+      "prompt": "Run `npm run build` in the next-generation directory"
+    },
+    "lint": {
+      "description": "Run ESLint",
+      "prompt": "Run `npm run lint` in the next-generation directory"
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": { "*": "ask" }
+  }
+}
