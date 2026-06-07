@@ -1,5 +1,14 @@
 # Next Generation Band Website
 
+This Project aims to build a website for a cover band from bavaria, germany. It should represent the band and present a good image to potential customers
+
+## Development Enviroment
+install dependencies: npm install
+run local in dev mode: npm run dev
+
+## Project Context
+- ./next_generation_design_blueprint.PNG shows a blueprint of the hero section
+
 ## Project Structure
 
 - `next-generation/` - Main Next.js project directory
