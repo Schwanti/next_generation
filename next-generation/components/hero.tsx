@@ -26,7 +26,7 @@ export function Hero() {
         </div>
 
         <div className="hero-content">
-            <Image src="/next_generation_logo.png" alt="Logo" width={400} height={400} className="hero-logo" />
+            <Image src="/next_generation_logo.png" alt="Next Generation" width={400} height={400} className="hero-logo" />
             <h1 className="hero-title">
             Party Musik Live aus<br />Eichstätt
             </h1>
