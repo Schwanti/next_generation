@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function Hero() {
   return (
-    <div className="hero-section">
+    <section id="hero" className="hero-section">
         <div className="background-overlay" />
         <div className="light-beam beam-1" />
         <div className="light-beam beam-2" />
@@ -35,8 +35,8 @@ export function Hero() {
             Von Bierzelt bis Hochzeit – wir spielen, ihr feiert.
             </p>
             <div className="hero-buttons">
-            <a href="#" className="btn btn-primary">Buchen</a>
-            <a href="#" className="btn btn-secondary">Mehr</a>
+            <a href="#kontakt" className="btn btn-primary">Buchen</a>
+            <a href="#services" className="btn btn-secondary">Mehr</a>
             </div>
         </div>
 
@@ -45,6 +45,6 @@ export function Hero() {
             <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </a>
-      </div>
+      </section>
   );
 }

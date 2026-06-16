@@ -26,15 +26,15 @@
   "command": {
     "dev": {
       "description": "Start the Next.js dev server",
-      "prompt": "Run `npm run dev` in the next-generation directory"
+      "template": "npm run dev"
     },
     "build": {
       "description": "Build for production",
-      "prompt": "Run `npm run build` in the next-generation directory"
+      "template": "npm run build"
     },
     "lint": {
       "description": "Run ESLint",
-      "prompt": "Run `npm run lint` in the next-generation directory"
+      "template": "npm run lint"
     }
   },
   "permission": {

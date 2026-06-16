@@ -1,5 +1,7 @@
 "use client";
 
+import Script from "next/script";
+
 export function InstagramGallery() {
   return (
     <section id="gallery" className="instagram-section">
@@ -20,7 +22,7 @@ export function InstagramGallery() {
 
       <div className="elfsight-container">
         <div className="elfsight-app-78e0ede2-0ecf-4056-b829-4a8671b29e0a" data-elfsight-app-lazy></div>
-        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <Script src="https://elfsightcdn.com/platform.js" strategy="afterInteractive" />
       </div>
     </section>
   );

@@ -66,8 +66,8 @@ export function ServicesPage() {
       <div className="services-cta">
         <p className="cta-text">Bereit für dein nächstes Event?</p>
         <div className="services-actions">
-          <Link href="/auftritte" className="btn btn-services btn-primary">Zu den Auftritten</Link>
-          <Link href="/kontakt" className="btn btn-services">Anfragen</Link>
+          <Link href="/auftritte" className="btn btn-accent">Zu den Auftritten</Link>
+          <Link href="/kontakt" className="btn btn-ghost">Anfragen</Link>
         </div>
       </div>
     </section>

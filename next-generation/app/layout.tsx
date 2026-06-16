@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Barlow, Barlow_Condensed } from "next/font/google";
 import { NavBar } from "@/components/navbar";
+import { Footer } from "@/components/footer";
 import "./globals.css";
 import "./styles.css";
 
@@ -14,9 +15,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const barlow = Barlow({
+  variable: "--font-barlow",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const barlowCondensed = Barlow_Condensed({
+  variable: "--font-barlow-condensed",
+  subsets: ["latin"],
+  weight: ["700", "800", "900"],
+});
+
 export const metadata: Metadata = {
   title: "Next Generation - Offizielle Webseite",
   description: "Die offizielle Webseite der Next Generation, einer Coverband aus Deutschland. Hier findest du alle Informationen über die Band, ihre Musik, Auftritte und Neuigkeiten.",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  name: "Next Generation",
+  genre: "Coverband",
+  location: {
+    "@type": "Place",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Eichstätt",
+      addressCountry: "DE",
+    },
+  },
+  description: "Party Musik Live aus Eichstätt – Coverband für Hochzeiten, Bierzelte und private Feiern in Bayern.",
 };
 
 export default function RootLayout({
@@ -25,12 +54,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="de">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable} ${barlowCondensed.variable} antialiased`}
       >
+        <a href="#main-content" className="skip-link">
+          Zum Inhalt springen
+        </a>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <NavBar />
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
