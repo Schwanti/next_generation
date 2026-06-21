@@ -1014,6 +1014,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 64px;
   background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%);
 }
 
@@ -1068,7 +1069,7 @@ html {
 .admin-page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: calc(64px + 2rem) 2rem 2rem;
 }
 
 .admin-header {
