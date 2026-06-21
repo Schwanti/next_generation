@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { ADMIN_EMAIL } from "@/lib/constants";
 
 export async function POST(request: NextRequest) {
   const { password } = await request.json();
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
   );
 
   const { error } = await supabase.auth.signInWithPassword({
-    email: "admin@nextgeneration-live.de",
+    email: ADMIN_EMAIL,
     password,
   });
 
@@ -37,7 +38,7 @@ export async function POST(request: NextRequest) {
     // User may not exist yet - create on first login
     const admin = createAdminClient();
     const { error: createError } = await admin.auth.admin.createUser({
-      email: "admin@nextgeneration-live.de",
+      email: ADMIN_EMAIL,
       password,
       email_confirm: true,
     });
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { error: retryError } = await supabase.auth.signInWithPassword({
-      email: "admin@nextgeneration-live.de",
+      email: ADMIN_EMAIL,
       password,
     });
 

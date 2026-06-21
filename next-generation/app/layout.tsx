@@ -29,7 +29,14 @@ const barlowCondensed = Barlow_Condensed({
 
 export const metadata: Metadata = {
   title: "Next Generation - Offizielle Webseite",
-  description: "Die offizielle Webseite der Next Generation, einer Coverband aus Deutschland. Hier findest du alle Informationen über die Band, ihre Musik, Auftritte und Neuigkeiten.",
+  description: "Die offizielle Webseite der Band Next Generation, einer Coverband aus der Mitte Bayerns. Hier findest du alle Informationen über die Band, ihre Musik, Auftritte und Neuigkeiten.",
+  openGraph: {
+    title: "Next Generation - Coverband aus Bayern",
+    description: "Party Musik Live aus Eichstätt – Coverband für Hochzeiten, Bierzelte und private Feiern in Bayern.",
+    type: "website",
+    locale: "de_DE",
+    siteName: "Next Generation",
+  },
 };
 
 const jsonLd = {

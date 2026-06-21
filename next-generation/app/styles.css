@@ -1187,3 +1187,21 @@ html {
   background: #e53e1a;
   color: #fff;
 }
+
+.admin-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.admin-checkbox input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+}
+
+.admin-file-input {
+  display: none;
+}

@@ -1,16 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-interface Performance {
-  id: number;
-  date: string;
-  title: string;
-  venue: string;
-  event_type: string;
-  image_url: string | null;
-  featured: boolean;
-}
+import type { Performance } from "@/types/performance";
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr + "T00:00:00");
@@ -68,7 +59,7 @@ export function Auftritte() {
             Derzeit sind keine Termine geplant.
           </p>
           <p className="auftritte-empty-text">
-            Für Buchungsanfragen kontaktiert uns gerne.
+            Für Buchungsanfragen kontaktiere uns gerne.
           </p>
           <a href="#kontakt" className="btn btn-accent">Jetzt anfragen</a>
         </div>

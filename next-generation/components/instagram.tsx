@@ -14,7 +14,11 @@ export function InstagramGallery() {
           </svg>
           Auf Instagram
         </p>
-        <h2 className="instagram-title">@nextgeneration_band</h2>
+        <h2 className="instagram-title">
+          <a href="https://instagram.com/nextgeneration_band" target="_blank" rel="noopener noreferrer">
+            @nextgeneration_band
+          </a>
+        </h2>
         <p className="instagram-subtitle">
           Folgt uns für Live-Updates, Backstage-Einblicke und mehr
         </p>

@@ -1,18 +1,9 @@
 "use client";
 
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState, FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-
-interface Performance {
-  id: number;
-  date: string;
-  title: string;
-  venue: string;
-  event_type: string;
-  image_url: string | null;
-  featured: boolean;
-}
+import type { Performance } from "@/types/performance";
 
 export default function AdminAuftritte() {
   const [performances, setPerformances] = useState<Performance[]>([]);
@@ -22,28 +13,56 @@ export default function AdminAuftritte() {
   const [title, setTitle] = useState("");
   const [venue, setVenue] = useState("");
   const [eventType, setEventType] = useState("Festzelt");
+  const [featured, setFeatured] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const router = useRouter();
+  const previewUrlRef = useRef<string | null>(null);
 
   async function loadPerformances() {
-    const supabase = createClient();
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      router.push("/admin/login");
-      return;
-    }
+    try {
+      const supabase = createClient();
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push("/admin/login");
+        return;
+      }
 
-    const res = await fetch("/api/auftritte");
-    const data = await res.json();
-    setPerformances(data);
-    setLoading(false);
+      const res = await fetch("/api/auftritte");
+      if (!res.ok) throw new Error("Fehler beim Laden");
+      const data = await res.json();
+      setPerformances(data);
+    } catch {
+      alert("Fehler beim Laden der Auftritte");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadPerformances();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    return () => {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+    };
+  }, []);
+
+  function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+      }
+      setImageFile(file);
+      const url = URL.createObjectURL(file);
+      previewUrlRef.current = url;
+      setImagePreview(url);
+    }
+  }
 
   async function handleImageUpload(file: File): Promise<string | null> {
     const supabase = createClient();
@@ -88,6 +107,7 @@ export default function AdminAuftritte() {
         venue,
         event_type: eventType,
         image_url: imageUrl,
+        featured,
       }),
     });
 
@@ -101,8 +121,13 @@ export default function AdminAuftritte() {
       setTitle("");
       setVenue("");
       setEventType("Festzelt");
+      setFeatured(false);
       setImageFile(null);
       setImagePreview(null);
+      if (previewUrlRef.current) {
+        URL.revokeObjectURL(previewUrlRef.current);
+        previewUrlRef.current = null;
+      }
       await loadPerformances();
     }
 
@@ -148,21 +173,26 @@ export default function AdminAuftritte() {
             <option value="Firmenfeier">Firmenfeier</option>
             <option value="Sonstiges">Sonstiges</option>
           </select>
+          <label className="admin-checkbox">
+            <input
+              type="checkbox"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+            />
+            Hervorgehoben
+          </label>
           <div className="admin-upload">
+            <label htmlFor="image-upload" className="btn btn-ghost">
+              Bild auswählen
+            </label>
             <input
               type="file"
               accept="image/*"
               id="image-upload"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  setImageFile(file);
-                  setImagePreview(URL.createObjectURL(file));
-                }
-              }}
+              className="admin-file-input"
+              onChange={handleFileSelect}
             />
             {imagePreview && <img src={imagePreview} alt="Vorschau" className="admin-preview" />}
-
           </div>
           <button type="submit" disabled={uploading} className="btn btn-accent">
             {uploading ? "Wird hochgeladen..." : "Hinzufügen"}
@@ -180,6 +210,7 @@ export default function AdminAuftritte() {
               <span>{gig.venue}</span>
               <span className="admin-item-type">{gig.event_type}</span>
               {gig.image_url && <span className="admin-has-image">📷</span>}
+              {gig.featured && <span className="admin-has-image">⭐</span>}
             </div>
             <button onClick={() => handleDelete(gig.id)} className="admin-delete">
               Löschen
