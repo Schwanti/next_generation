@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Barlow, Barlow_Condensed } from "next/font/google";
-import { NavBar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
 import "./globals.css";
 import "./styles.css";
 
@@ -72,11 +70,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <NavBar />
-        <main id="main-content">
-          {children}
-        </main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

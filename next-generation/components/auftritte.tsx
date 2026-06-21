@@ -79,10 +79,13 @@ export function Auftritte() {
 
       <div className="auftritte-list">
         {upcoming.map((gig) => (
-          <div key={gig.id} className="auftritte-card upcoming">
+          <div key={gig.id} className={`auftritte-card upcoming${gig.featured ? " featured" : ""}`}>
             <div className="auftritte-card-top">
               <span className="auftritte-date">{formatDate(gig.date)}</span>
-              <span className="auftritte-badge">Bevorstehend</span>
+              <div className="auftritte-badges">
+                <span className="auftritte-badge">Bevorstehend</span>
+                {gig.featured && <span className="auftritte-badge featured-badge">Hervorgehoben</span>}
+              </div>
             </div>
             <h3 className="auftritte-card-title">{gig.title}</h3>
             <p className="auftritte-venue">{gig.venue}</p>
@@ -96,10 +99,13 @@ export function Auftritte() {
           <h3 className="auftritte-past-title">Vergangene Auftritte</h3>
           <div className="auftritte-list">
             {visiblePast.map((gig) => (
-              <div key={gig.id} className="auftritte-card past">
+              <div key={gig.id} className={`auftritte-card past${gig.featured ? " featured" : ""}`}>
                 <div className="auftritte-card-top">
                   <span className="auftritte-date">{formatDate(gig.date)}</span>
-                  <span className="auftritte-badge past-badge">Vergangen</span>
+                  <div className="auftritte-badges">
+                    <span className="auftritte-badge past-badge">Vergangen</span>
+                    {gig.featured && <span className="auftritte-badge featured-badge">Hervorgehoben</span>}
+                  </div>
                 </div>
                 <h3 className="auftritte-card-title">{gig.title}</h3>
                 <p className="auftritte-venue">{gig.venue}</p>

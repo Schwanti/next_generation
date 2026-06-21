@@ -9,6 +9,7 @@ export default function AdminAuftritte() {
   const [performances, setPerformances] = useState<Performance[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [date, setDate] = useState("");
   const [title, setTitle] = useState("");
   const [venue, setVenue] = useState("");
@@ -16,6 +17,7 @@ export default function AdminAuftritte() {
   const [featured, setFeatured] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const router = useRouter();
   const previewUrlRef = useRef<string | null>(null);
 
@@ -51,6 +53,39 @@ export default function AdminAuftritte() {
     };
   }, []);
 
+  function resetForm() {
+    setDate("");
+    setTitle("");
+    setVenue("");
+    setEventType("Festzelt");
+    setFeatured(false);
+    setImageFile(null);
+    setImagePreview(null);
+    setExistingImageUrl(null);
+    setEditingId(null);
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+      previewUrlRef.current = null;
+    }
+  }
+
+  function handleEditClick(gig: Performance) {
+    setDate(gig.date);
+    setTitle(gig.title);
+    setVenue(gig.venue);
+    setEventType(gig.event_type);
+    setFeatured(gig.featured);
+    setExistingImageUrl(gig.image_url);
+    setImagePreview(null);
+    setImageFile(null);
+    setEditingId(gig.id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleCancelEdit() {
+    resetForm();
+  }
+
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
@@ -85,21 +120,26 @@ export default function AdminAuftritte() {
     return urlData.publicUrl;
   }
 
-  async function handleAdd(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setUploading(true);
 
-    let imageUrl: string | null = null;
+    let imageUrl: string | null = existingImageUrl;
     if (imageFile) {
-      imageUrl = await handleImageUpload(imageFile);
-      if (!imageUrl) {
+      const uploaded = await handleImageUpload(imageFile);
+      if (!uploaded) {
         setUploading(false);
         return;
       }
+      imageUrl = uploaded;
     }
 
-    const res = await fetch("/api/auftritte", {
-      method: "POST",
+    const isEditing = editingId !== null;
+    const url = isEditing ? `/api/auftritte/${editingId}` : "/api/auftritte";
+    const method = isEditing ? "PUT" : "POST";
+
+    const res = await fetch(url, {
+      method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         date,
@@ -117,17 +157,7 @@ export default function AdminAuftritte() {
     }
 
     if (res.ok) {
-      setDate("");
-      setTitle("");
-      setVenue("");
-      setEventType("Festzelt");
-      setFeatured(false);
-      setImageFile(null);
-      setImagePreview(null);
-      if (previewUrlRef.current) {
-        URL.revokeObjectURL(previewUrlRef.current);
-        previewUrlRef.current = null;
-      }
+      resetForm();
       await loadPerformances();
     }
 
@@ -160,8 +190,8 @@ export default function AdminAuftritte() {
         </button>
       </div>
 
-      <form onSubmit={handleAdd} className="admin-form">
-        <h2>Neuen Auftritt hinzufügen</h2>
+      <form onSubmit={handleSubmit} className="admin-form">
+        <h2>{editingId ? "Auftritt bearbeiten" : "Neuen Auftritt hinzufügen"}</h2>
         <div className="admin-form-grid">
           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
           <input type="text" placeholder="Titel (z.B. Sommerfest)" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -183,7 +213,7 @@ export default function AdminAuftritte() {
           </label>
           <div className="admin-upload">
             <label htmlFor="image-upload" className="btn btn-ghost">
-              Bild auswählen
+              {imageFile ? "Anderes Bild auswählen" : "Bild auswählen"}
             </label>
             <input
               type="file"
@@ -192,11 +222,24 @@ export default function AdminAuftritte() {
               className="admin-file-input"
               onChange={handleFileSelect}
             />
-            {imagePreview && <img src={imagePreview} alt="Vorschau" className="admin-preview" />}
+            {(imagePreview || existingImageUrl) && (
+              <img
+                src={imagePreview || existingImageUrl || ""}
+                alt="Vorschau"
+                className="admin-preview"
+              />
+            )}
           </div>
-          <button type="submit" disabled={uploading} className="btn btn-accent">
-            {uploading ? "Wird hochgeladen..." : "Hinzufügen"}
-          </button>
+          <div className="admin-form-actions">
+            <button type="submit" disabled={uploading} className="btn btn-accent">
+              {uploading ? "Wird gespeichert..." : editingId ? "Speichern" : "Hinzufügen"}
+            </button>
+            {editingId && (
+              <button type="button" onClick={handleCancelEdit} className="btn btn-ghost">
+                Abbrechen
+              </button>
+            )}
+          </div>
         </div>
       </form>
 
@@ -210,11 +253,16 @@ export default function AdminAuftritte() {
               <span>{gig.venue}</span>
               <span className="admin-item-type">{gig.event_type}</span>
               {gig.image_url && <span className="admin-has-image">📷</span>}
-              {gig.featured && <span className="admin-has-image">⭐</span>}
+              {gig.featured ? <span className="admin-badge-featured">Hervorgehoben</span> : <span className="admin-badge-default">Standard</span>}
             </div>
-            <button onClick={() => handleDelete(gig.id)} className="admin-delete">
-              Löschen
-            </button>
+            <div className="admin-item-actions">
+              <button onClick={() => handleEditClick(gig)} className="admin-edit">
+                Bearbeiten
+              </button>
+              <button onClick={() => handleDelete(gig.id)} className="admin-delete">
+                Löschen
+              </button>
+            </div>
           </div>
         ))}
       </div>

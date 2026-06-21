@@ -18,5 +18,7 @@ Focus on:
 - Potential bugs or edge cases
 - Consistency with existing codebase patterns
 - Clean Code if it makes sense
+- Avoid quick&dirty workarounds as much as possible
+- Big files should be split up
 
 Do NOT make any edits. Only read files and provide feedback.

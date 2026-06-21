@@ -19,9 +19,6 @@ export function NavBar() {
         <li>
           <a href="#gallery" className="nav-link gallery-btn">
             Galerie
-            <svg viewBox="0 0 10 6" className="gallery-icon">
-              <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-            </svg>
           </a>
         </li>
       </ul>
