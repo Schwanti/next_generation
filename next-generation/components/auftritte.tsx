@@ -84,7 +84,6 @@ export function Auftritte() {
               <span className="auftritte-date">{formatDate(gig.date)}</span>
               <div className="auftritte-badges">
                 <span className="auftritte-badge">Bevorstehend</span>
-                {gig.featured && <span className="auftritte-badge featured-badge">Hervorgehoben</span>}
               </div>
             </div>
             <h3 className="auftritte-card-title">{gig.title}</h3>
@@ -104,7 +103,6 @@ export function Auftritte() {
                   <span className="auftritte-date">{formatDate(gig.date)}</span>
                   <div className="auftritte-badges">
                     <span className="auftritte-badge past-badge">Vergangen</span>
-                    {gig.featured && <span className="auftritte-badge featured-badge">Hervorgehoben</span>}
                   </div>
                 </div>
                 <h3 className="auftritte-card-title">{gig.title}</h3>
