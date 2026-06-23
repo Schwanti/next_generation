@@ -17,7 +17,7 @@ export function NavBar() {
         <li><a href="#band" className="nav-link">Über uns</a></li>
         <li><a href="#auftritte" className="nav-link">Auftritte</a></li>
         <li>
-          <a href="#gallery" className="nav-link gallery-btn">
+          <a href="#gallery" className="nav-link">
             Galerie
           </a>
         </li>
