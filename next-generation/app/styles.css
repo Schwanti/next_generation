@@ -731,6 +731,26 @@ html {
   color: rgba(255, 255, 255, 0.85);
 }
 
+.services-custom {
+  text-align: center;
+  max-width: 600px;
+  margin: 2rem auto;
+  color: #555;
+  line-height: 1.7;
+  font-size: 1.05rem;
+}
+
+.services-custom a {
+  color: #e53e1a;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.services-custom a:hover {
+  color: #c32e0e;
+}
+
 .services-cta {
   background: #fff;
   padding: 3rem;
@@ -778,15 +798,30 @@ html {
 
 .band-subtitle {
   max-width: 500px;
-  margin: 0 auto 1rem;
+  margin: 0 auto 2.5rem;
   color: #666;
 }
 
 .band-description {
   max-width: 600px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 1.5rem;
   color: #555;
   line-height: 1.7;
+}
+
+.band-description:last-of-type {
+  margin-bottom: 3rem;
+}
+
+.band-contact-link {
+  color: #e53e1a;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.band-contact-link:hover {
+  color: #c32e0e;
 }
 
 .band-grid {
@@ -1355,4 +1390,90 @@ html {
   border-radius: 2rem;
   background: #f0f0f0;
   color: #888;
+}
+
+.admin-header-links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.admin-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: grab;
+  color: #999;
+  padding: 0.25rem;
+  flex-shrink: 0;
+  border-radius: 0.25rem;
+}
+
+.admin-drag-handle:hover {
+  color: #555;
+  background: #f0f0f0;
+}
+
+.admin-drag-handle:active {
+  cursor: grabbing;
+}
+
+.admin-member-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.admin-member-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e53e1a;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.admin-textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.band-member-skeleton {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  margin: 0 auto;
+}
+
+.band-member-skeleton-text {
+  height: 1rem;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 0.25rem;
+  margin: 0.75rem auto 0;
+  width: 60%;
+}
+
+.band-member-skeleton-small {
+  width: 40%;
+  height: 0.75rem;
+  margin-top: 0.4rem;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }

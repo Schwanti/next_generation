@@ -1,26 +1,26 @@
 import Link from 'next/link';
-import { FireIcon, HeartIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import { FireIcon, SparklesIcon, BuildingLibraryIcon } from '@heroicons/react/24/outline';
 
 const services = [
   {
-    id: "bierzelt",
-    title: "Bierzelt & Festzelt",
-    description: "Stimmung pur! Klassische Wiesn-Hits und Partykracher, die dein Fest unvergesslich machen.",
+    id: "festzelt",
+    title: "Bierzelt & Kirchweih",
+    description: "Klassische Wiesn-Hits und knalliger Partyrock, der die Stimmung zum Kochen bringt.",
     Icon: FireIcon,
     featured: true,
   },
   {
-    id: "hochzeiten",
-    title: "Hochzeiten",
-    description: "Von der Trauung bis zur letzten Tanzeinlage – wir machen euren großen Tag perfekt.",
-    Icon: HeartIcon,
+    id: "verein",
+    title: "Vereins- & Privatfeiern",
+    description: "Geburtstage, Jubiläen, Vereinsfeste – Tanzmusik für alle Generationen, ganz nach Ihren Wünschen.",
+    Icon: SparklesIcon,
     featured: false,
   },
   {
-    id: "private",
-    title: "Private Feiern",
-    description: "Geburtstage, Jubiläen, Firmenfeiern – wir spielen für jeden Anlass die richtige Musik.",
-    Icon: SparklesIcon,
+    id: "stadtfest",
+    title: "Brauerei- & Altstadtfeste",
+    description: "Von AC/DC bis zu den aktuellen Charts – Classic Rock und Partykracher für Ihr Publikum.",
+    Icon: BuildingLibraryIcon,
     featured: false,
   },
 ];
@@ -30,9 +30,10 @@ export function ServicesPage() {
     <section id="services" className="services-section">
       <div className="services-header">
         <p className="services-label">Was wir bieten</p>
-        <h2 className="services-title">Dein Anlass, unsere Musik</h2>
+        <h2 className="services-title">Ihr Anlass, unsere Musik</h2>
         <p className="services-subtitle">
-          Ob mega Event oder intime Feier – wir liefern den Sound, der begeistert.
+          Egal ob Kirchweih, Vereinsfeier, Brauerei- oder Altstadtfest – wir gestalten
+          musikalisch einen unvergesslichen Abend.
         </p>
         <div className="services-stats">
           <div className="stat">
@@ -41,7 +42,7 @@ export function ServicesPage() {
           </div>
           <div className="stat-divider" />
           <div className="stat">
-            <span className="stat-number">6</span>
+            <span className="stat-number">8</span>
             <span className="stat-label">Musiker</span>
           </div>
           <div className="stat-divider" />
@@ -63,8 +64,14 @@ export function ServicesPage() {
         ))}
       </div>
 
+      <p className="services-custom">
+        Sie stellen sich etwas anderes vor?{" "}
+        <Link href="#kontakt">Kontaktieren Sie uns</Link> und wir planen das Programm
+        ganz speziell nach Ihren Wünschen.
+      </p>
+
       <div className="services-cta">
-        <p className="cta-text">Bereit für dein nächstes Event?</p>
+        <p className="cta-text">Bereit für Ihr nächstes Event?</p>
         <div className="services-actions">
           <Link href="#auftritte" className="btn btn-accent">Zu den Auftritten</Link>
           <Link href="#kontakt" className="btn btn-ghost">Anfragen</Link>

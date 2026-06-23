@@ -185,9 +185,14 @@ export default function AdminAuftritte() {
     <div className="admin-page">
       <div className="admin-header">
         <h1>Auftritte verwalten</h1>
-        <button onClick={() => router.push("/")} className="btn btn-ghost">
-          Zur Website
-        </button>
+        <div className="admin-header-links">
+          <button onClick={() => router.push("/admin/mitglieder")} className="btn btn-ghost">
+            Bandmitglieder
+          </button>
+          <button onClick={() => router.push("/")} className="btn btn-ghost">
+            Zur Website
+          </button>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="admin-form">
