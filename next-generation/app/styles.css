@@ -330,12 +330,12 @@ html {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 3rem 2rem 4rem 2rem;
+  padding: 5.5rem 2rem 4rem 2rem;
 }
 
 @media (min-height: 900px) {
   .hero-content {
-    padding: 5rem 2rem 7rem 2rem;
+    padding: 7.5rem 2rem 7rem 2rem;
   }
 }
 
@@ -347,14 +347,14 @@ html {
 
 @media (min-width: 641px) {
   .hero-logo {
-    max-height: 35vh;
-    width: auto;
+    max-width: min(400px, 55vw);
+    height: auto;
   }
 }
 
 @media (min-height: 900px) {
   .hero-logo {
-    max-height: none;
+    max-width: min(600px, 75vw);
     margin-bottom: 2rem;
   }
 }
@@ -362,7 +362,7 @@ html {
 @media (max-width: 640px) {
   .hero-logo {
     width: 200px;
-    height: 200px;
+    height: auto;
   }
 }
 
