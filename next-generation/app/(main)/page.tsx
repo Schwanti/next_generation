@@ -1,17 +1,19 @@
 import { Hero } from "@/components/hero";
-import { BandSection } from "@/components/band";
 import { ServicesPage } from "@/components/services";
-import { InstagramGallery } from "@/components/instagram";
 import { Auftritte } from "@/components/auftritte";
+import { BandSection } from "@/components/band";
+import { InstagramGallery } from "@/components/instagram";
+import { ContactSection } from "@/components/contact";
 
 export default function Home() {
   return (
     <div className="page-wrapper">
       <Hero />
       <ServicesPage />
-      <BandSection />
       <Auftritte />
+      <BandSection />
       <InstagramGallery />
+      <ContactSection />
     </div>
   );
 }

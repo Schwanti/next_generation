@@ -1,6 +1,8 @@
+import { CONTACT_EMAIL } from "@/lib/constants";
+
 export function Footer() {
   return (
-    <footer id="kontakt" className="footer-section">
+    <footer className="footer-section">
       <div className="footer-content">
         <div className="footer-brand">
           <h3 className="footer-title">Next Generation</h3>
@@ -10,8 +12,8 @@ export function Footer() {
         </div>
         <div className="footer-links">
           <h4 className="footer-heading">Kontakt</h4>
-          <a href="mailto:info@nextgeneration-live.de" className="footer-link">
-            info@nextgeneration-live.de
+          <a href={`mailto:${CONTACT_EMAIL}`} className="footer-link">
+            {CONTACT_EMAIL}
           </a>
         </div>
         <div className="footer-social">

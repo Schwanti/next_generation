@@ -14,8 +14,8 @@ export function NavBar() {
 
       <ul id="nav-menu" className={`nav-menu ${menuOpen ? 'open' : ''}`}>
         <li><a href="#hero" className="nav-link">Startseite</a></li>
-        <li><a href="#band" className="nav-link">Über uns</a></li>
         <li><a href="#auftritte" className="nav-link">Auftritte</a></li>
+        <li><a href="#band" className="nav-link">Über uns</a></li>
         <li>
           <a href="#gallery" className="nav-link">
             Galerie
@@ -24,7 +24,6 @@ export function NavBar() {
       </ul>
 
       <div className="nav-actions">
-        <a href="#kontakt" className="nav-btn nav-btn-outline">Kontakt</a>
         <a href="#kontakt" className="nav-btn nav-btn-primary">Buchen</a>
       </div>
 
