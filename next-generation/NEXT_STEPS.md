@@ -90,7 +90,14 @@ Kontakt: booking@nextgeneration-live.de
 - In API-Routen (`POST/PUT/DELETE` für Auftritte und Band-Mitglieder): Log-Eintrag nach erfolgreicher Operation einfügen
 - Supabase `createAdminClient()` für Log-Schreibzugriff
 
-### 7. Hero Redesign
+### 7. Bild löschen im Admin-Panel
+- Aktuell kann beim Bearbeiten eines Auftritts oder Band-Mitglieds nur ein **neues** Bild hochgeladen werden, aber das bestehende Bild **nicht entfernt** werden (zurück auf `image_url = null`)
+- Nötig: "Bild entfernen"-Button im Bearbeitungs-Formular
+  - Setzt `image_url` auf `null` in der Datenbank
+  - Löscht optional auch die Datei aus Supabase Storage
+- Betrifft: `app/admin/auftritte/page.tsx` und `app/admin/mitglieder/page.tsx`
+
+### 8. Hero Redesign
 - **Neues Background-Bild** ersetzen (aktuell `public/background_picture.png`)
 - Weniger Text:
   - Nur Band-Logo + ggf. Headline
@@ -98,7 +105,7 @@ Kontakt: booking@nextgeneration-live.de
   - CTAs reduzieren
 - **Status:** Muss vom Auftraggeber konkretisiert werden (Bild, Layout)
 
-### 8. SSR für Auftritte & Band-Mitglieder
+### 9. SSR für Auftritte & Band-Mitglieder
 - Aktuell: Client-seitiges `useEffect` → leeres HTML beim ersten Render
 - Ziel: Daten serverseitig laden
 - `components/auftritte.tsx` & `components/band.tsx`:
@@ -106,7 +113,7 @@ Kontakt: booking@nextgeneration-live.de
   - Skeleton-Loader können entfallen
 - Daten aus API-Routen → direkter Supabase-Zugriff im Page-Component
 
-### 9. sitemap.xml & robots.txt
+### 10. sitemap.xml & robots.txt
 - `app/sitemap.ts`: Listet öffentliche Seiten (`/`, `/impressum`)
 - `app/robots.ts`: Erlaubt Crawlen, blockt `/admin/*`
 - Geringer Aufwand (< 30 Zeilen), keine Dependencies
@@ -115,17 +122,17 @@ Kontakt: booking@nextgeneration-live.de
 
 ## P3 – Niedrig
 
-### 10. Bildoptimierung
+### 11. Bildoptimierung
 - `public/background_picture.png` prüfen (Größe, Format)
 - Ggf. zu WebP konvertieren
 
-### 11. Tailwind CSS Analyse
+### 12. Tailwind CSS Analyse
 - Tailwind v4 installiert, aber **komplett ungenutzt** (alles in 1593 Zeilen custom CSS)
 - Option A: Entfernen → `npm uninstall tailwindcss @tailwindcss/postcss`
 - Option B: Migration auf Utility-Klassen → kein dringender Bedarf
 - **Empfehlung:** Option A
 
-### 12. Login Rate-Limiting
+### 13. Login Rate-Limiting
 - `/api/auth/login` vor Brute-Force schützen
 - Einfache In-Memory-Lösung oder bei Deployment (Cloudflare/Vercel)
 
@@ -155,12 +162,13 @@ P1 (nächster Durchgang)
 │
 P2 (danach)
 ├── 6. Logging
-├── 7. Hero Redesign
-├── 8. SSR
-├── 9. sitemap + robots.txt
+├── 7. Bild löschen im Admin-Panel
+├── 8. Hero Redesign
+├── 9. SSR
+├── 10. sitemap + robots.txt
 │
 P3 (optional)
-├── 10. Bildoptimierung
-├── 11. Tailwind entfernen
-├── 12. Rate-Limiting
+├── 11. Bildoptimierung
+├── 12. Tailwind entfernen
+├── 13. Rate-Limiting
 ```
