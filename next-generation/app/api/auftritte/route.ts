@@ -27,6 +27,11 @@ export async function POST(request: Request) {
   const body = await request.json();
   const { date, title, venue, event_type, image_url, featured } = body;
 
+  const validString = (v: unknown) => typeof v === "string" && v.trim().length > 0;
+  if (!validString(date) || !validString(title) || !validString(venue)) {
+    return NextResponse.json({ error: "Datum, Titel und Ort sind Pflichtfelder" }, { status: 400 });
+  }
+
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("performances")

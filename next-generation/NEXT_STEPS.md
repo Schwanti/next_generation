@@ -7,17 +7,19 @@
 
 ---
 
-## P0 – Sicherheit (sofort)
+## P0 – Sicherheit (sofort) ✅
 
-### 1. Middleware für Admin-Schutz
-- `proxy.ts` → `middleware.ts` umbenennen und in `next-generation/` ablegen
+### 1. Middleware für Admin-Schutz ✅
+- `proxy.ts` mit `export async function proxy` erstellt (Next.js 16 Konvention)
 - Serverseitiger Schutz aller `/admin/*` Routen
-- Bypass nur für `/admin/login` und `/admin/register`
-- Anschließend `proxy.ts` löschen
+- Bypass für `/admin/login` **und** `/admin/register`
+- Build: `ƒ Proxy (Middleware)` aktiv, keine Warnings
 
-### 2. Security-Fixes
-- **Bucket hardcoden** in `/api/upload`: nur `member-images` und `gig-images` erlauben (aktuell via `formData.get("bucket")` steuerbar → authenticated user könnte in beliebige Buckets hochladen)
-- Input-Validierung in API-Routen (Pflichtfelder, Datumsformat, String-Längen)
+### 2. Security-Fixes ✅
+- **Bucket hardcoden** in `/api/upload`: nur `member-images` und `gig-images` erlaubt (zuvor via `formData.get("bucket")` steuerbar)
+- Datei-Typ-Validierung: nur JPEG, PNG, WebP, AVIF
+- Datei-Größen-Limit: max. 10 MB
+- Input-Validierung in allen POST/PUT-Routen (Pflichtfelder: date/title/venue bei Auftritten, name/role bei Band-Mitgliedern)
 
 ---
 

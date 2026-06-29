@@ -12,10 +12,23 @@ export async function POST(request: Request) {
 
   const formData = await request.formData();
   const file = formData.get("file") as File | null;
-  const bucket = formData.get("bucket") as string || "member-images";
+  const bucketParam = formData.get("bucket") as string | null;
+  const allowedBuckets = ["member-images", "gig-images"];
+  const bucket = bucketParam && allowedBuckets.includes(bucketParam)
+    ? bucketParam
+    : "member-images";
 
   if (!file) {
     return NextResponse.json({ error: "Keine Datei" }, { status: 400 });
+  }
+
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/avif"];
+  if (!allowedTypes.includes(file.type)) {
+    return NextResponse.json({ error: "Nur JPEG, PNG, WebP und AVIF erlaubt" }, { status: 400 });
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    return NextResponse.json({ error: "Datei darf max. 10 MB groß sein" }, { status: 400 });
   }
 
   const fileExt = file.name.split(".").pop();
