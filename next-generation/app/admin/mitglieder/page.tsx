@@ -21,6 +21,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { createClient } from "@/lib/supabase/client";
+import { AuthIndicator } from "@/components/auth-indicator";
 import type { BandMember } from "@/types/band-member";
 
 function SortableMember({
@@ -99,6 +100,7 @@ export default function AdminMitglieder() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const router = useRouter();
   const previewUrlRef = useRef<string | null>(null);
 
@@ -115,6 +117,9 @@ export default function AdminMitglieder() {
         router.push("/admin/login");
         return;
       }
+
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsSuperAdmin(user?.app_metadata?.role === "super_admin");
 
       const res = await fetch("/api/band-members");
       if (!res.ok) throw new Error("Fehler beim Laden");
@@ -295,8 +300,21 @@ export default function AdminMitglieder() {
         <h1>Bandmitglieder verwalten</h1>
         <div className="admin-header-links">
           <Link href="/admin/auftritte" className="btn btn-ghost">Auftritte</Link>
+          {isSuperAdmin && <Link href="/admin/users" className="btn btn-ghost">Benutzer</Link>}
           <Link href="/" className="btn btn-ghost">Zur Website</Link>
         </div>
+        <button
+          onClick={async () => {
+            const supabase = createClient();
+            await supabase.auth.signOut();
+            router.push("/");
+          }}
+          className="btn btn-ghost"
+          style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+        >
+          Abmelden
+        </button>
+        <AuthIndicator />
       </div>
 
       <form onSubmit={handleSubmit} className="admin-form">

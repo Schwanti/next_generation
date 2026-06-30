@@ -2,8 +2,10 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function AdminLogin() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,7 @@ export default function AdminLogin() {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ email, password }),
     });
 
     if (res.ok) {
@@ -35,11 +37,20 @@ export default function AdminLogin() {
         <h1>Admin Login</h1>
         <form onSubmit={handleSubmit}>
           <input
+            type="email"
+            placeholder="E-Mail-Adresse"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            autoFocus
+            autoComplete="email"
+          />
+          <input
             type="password"
             placeholder="Passwort"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autoFocus
+            required
             autoComplete="current-password"
           />
           {error && <p className="admin-error">{error}</p>}
@@ -47,6 +58,9 @@ export default function AdminLogin() {
             {loading ? "Wird angemeldet..." : "Anmelden"}
           </button>
         </form>
+        <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "#888", textAlign: "center" }}>
+          Noch kein Account? <Link href="/admin/register" style={{ color: "#e53e1a" }}>Registrieren</Link>
+        </p>
       </div>
     </div>
   );

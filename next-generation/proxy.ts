@@ -12,7 +12,7 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
-  if (pathname === "/admin/login" || pathname === "/admin/register") {
+  if (pathname === "/admin/login" || pathname === "/admin/register" || pathname === "/admin/unauthorized") {
     return NextResponse.next();
   }
 
@@ -43,6 +43,29 @@ export async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
     return NextResponse.redirect(url);
+  }
+
+  // Check role from app_metadata (fresh fetch via getUser)
+  const { data: { user } } = await supabase.auth.getUser();
+  const role = user?.app_metadata?.role as string | undefined;
+
+  if (!role || role === "pending") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin/login";
+    return NextResponse.redirect(url);
+  }
+
+  // Role-based route permissions
+  const routePermissions: Record<string, string[]> = {
+    "/admin/users": ["super_admin"],
+  };
+
+  for (const [route, allowedRoles] of Object.entries(routePermissions)) {
+    if (pathname.startsWith(route) && !allowedRoles.includes(role)) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/admin/unauthorized";
+      return NextResponse.redirect(url);
+    }
   }
 
   return supabaseResponse;

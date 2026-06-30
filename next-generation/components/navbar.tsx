@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react";
+import { AuthIndicator } from "@/components/auth-indicator";
 
 export function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,6 +26,7 @@ export function NavBar() {
 
       <div className="nav-actions">
         <a href="#kontakt" className="nav-btn nav-btn-primary">Buchen</a>
+        <AuthIndicator />
       </div>
 
       <button

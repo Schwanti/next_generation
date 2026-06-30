@@ -1,5 +1,3 @@
-export const ADMIN_EMAIL = "admin@nextgeneration-live.de";
-
 export const CONTACT_EMAIL = "info@nextgeneration-live.de";
 
 export const BOOKING_EMAIL = "booking@nextgeneration-live.de";

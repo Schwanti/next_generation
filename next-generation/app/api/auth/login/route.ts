@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { ADMIN_EMAIL } from "@/lib/constants";
 
 export async function POST(request: NextRequest) {
-  const { password } = await request.json();
+  const { email, password } = await request.json();
 
-  if (password !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: "Falsches Passwort" }, { status: 401 });
+  if (!email || !password) {
+    return NextResponse.json(
+      { error: "Email und Passwort sind Pflichtfelder" },
+      { status: 400 },
+    );
   }
 
   const response = NextResponse.json({ success: true });
@@ -22,39 +24,103 @@ export async function POST(request: NextRequest) {
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
+            request.cookies.set(name, value);
             response.cookies.set(name, value, options);
           });
         },
       },
-    }
+    },
   );
 
-  const { error } = await supabase.auth.signInWithPassword({
-    email: ADMIN_EMAIL,
+  const admin = createAdminClient();
+
+  // Bootstrap: ADMIN_EMAIL + ADMIN_PASSWORD creates/upgrades the super admin
+  if (
+    email === process.env.ADMIN_EMAIL &&
+    password === process.env.ADMIN_PASSWORD
+  ) {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      const { error: createError } = await admin.auth.admin.createUser({
+        email,
+        password,
+        email_confirm: true,
+        app_metadata: { role: "super_admin" },
+      });
+
+      if (createError) {
+        return NextResponse.json(
+          { error: "Login fehlgeschlagen" },
+          { status: 401 },
+        );
+      }
+
+      const { error: retryError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (retryError) {
+        return NextResponse.json(
+          { error: "Login fehlgeschlagen" },
+          { status: 401 },
+        );
+      }
+    }
+
+    // Ensure super_admin role in app_metadata
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user?.app_metadata?.role !== "super_admin") {
+      if (!user) {
+        return NextResponse.json(
+          { error: "Benutzer nicht gefunden" },
+          { status: 500 },
+        );
+      }
+      await admin.auth.admin.updateUserById(user.id, {
+        app_metadata: { role: "super_admin" },
+      });
+    }
+
+    return response;
+  }
+
+  // Normal login: Supabase Auth + role check via getUser()
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email,
     password,
   });
 
-  if (error) {
-    // User may not exist yet - create on first login
-    const admin = createAdminClient();
-    const { error: createError } = await admin.auth.admin.createUser({
-      email: ADMIN_EMAIL,
-      password,
-      email_confirm: true,
-    });
+  if (signInError) {
+    const isUnconfirmed =
+      signInError.code === "email_not_confirmed" ||
+      signInError.message?.toLowerCase().includes("email not confirmed");
 
-    if (createError) {
-      return NextResponse.json({ error: "Login fehlgeschlagen" }, { status: 401 });
-    }
+    return NextResponse.json(
+      {
+        error: isUnconfirmed
+          ? "E-Mail wurde noch nicht bestätigt. Bitte prüfe dein Postfach."
+          : "Email oder Passwort falsch",
+      },
+      { status: 401 },
+    );
+  }
 
-    const { error: retryError } = await supabase.auth.signInWithPassword({
-      email: ADMIN_EMAIL,
-      password,
-    });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const role = user?.app_metadata?.role;
 
-    if (retryError) {
-      return NextResponse.json({ error: "Login fehlgeschlagen" }, { status: 401 });
-    }
+  if (role === "pending" || !role) {
+    return NextResponse.json(
+      { error: "Account wurde noch nicht freigeschaltet" },
+      { status: 403 },
+    );
   }
 
   return response;

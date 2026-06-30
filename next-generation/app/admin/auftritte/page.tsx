@@ -3,6 +3,7 @@
 import { useEffect, useState, FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { AuthIndicator } from "@/components/auth-indicator";
 import type { Performance } from "@/types/performance";
 
 export default function AdminAuftritte() {
@@ -18,6 +19,7 @@ export default function AdminAuftritte() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const router = useRouter();
   const previewUrlRef = useRef<string | null>(null);
 
@@ -29,6 +31,9 @@ export default function AdminAuftritte() {
         router.push("/admin/login");
         return;
       }
+
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsSuperAdmin(user?.app_metadata?.role === "super_admin");
 
       const res = await fetch("/api/auftritte");
       if (!res.ok) throw new Error("Fehler beim Laden");
@@ -189,10 +194,27 @@ export default function AdminAuftritte() {
           <button onClick={() => router.push("/admin/mitglieder")} className="btn btn-ghost">
             Bandmitglieder
           </button>
+          {isSuperAdmin && (
+            <button onClick={() => router.push("/admin/users")} className="btn btn-ghost">
+              Benutzer
+            </button>
+          )}
           <button onClick={() => router.push("/")} className="btn btn-ghost">
             Zur Website
           </button>
         </div>
+        <button
+          onClick={async () => {
+            const supabase = createClient();
+            await supabase.auth.signOut();
+            router.push("/");
+          }}
+          className="btn btn-ghost"
+          style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+        >
+          Abmelden
+        </button>
+        <AuthIndicator />
       </div>
 
       <form onSubmit={handleSubmit} className="admin-form">

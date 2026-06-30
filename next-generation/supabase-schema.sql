@@ -62,3 +62,6 @@ create policy "Authenticated users can update band_members"
 create policy "Authenticated users can delete band_members"
   on band_members for delete
   using (auth.role() = 'authenticated');
+
+-- User roles are managed via Supabase Auth app_metadata (role: pending | editor | super_admin)
+-- No separate profiles table needed.
