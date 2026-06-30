@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { deleteImageFromUrl } from "@/lib/supabase/storage";
 
 async function requireAuth() {
   const supabase = await createClient();
@@ -9,6 +10,12 @@ async function requireAuth() {
     return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
   }
   return null;
+}
+
+async function getPerformanceOrNull(id: string) {
+  const admin = createAdminClient();
+  const { data } = await admin.from("performances").select("id, image_url").eq("id", id).single();
+  return data;
 }
 
 export async function DELETE(
@@ -20,12 +27,16 @@ export async function DELETE(
 
   const { id } = await params;
 
+  const performance = await getPerformanceOrNull(id);
+
   const admin = createAdminClient();
   const { error } = await admin.from("performances").delete().eq("id", id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
+
+  await deleteImageFromUrl(performance?.image_url ?? null);
 
   return NextResponse.json({ success: true });
 }
@@ -46,6 +57,10 @@ export async function PUT(
     return NextResponse.json({ error: "Datum, Titel und Ort sind Pflichtfelder" }, { status: 400 });
   }
 
+  const old = await getPerformanceOrNull(id);
+
+  console.log("PUT performance:", { id, oldImageUrl: old?.image_url, newImageUrl: image_url });
+
   const admin = createAdminClient();
   const { data, error } = await admin
     .from("performances")
@@ -56,6 +71,13 @@ export async function PUT(
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  if (old?.image_url && old.image_url !== image_url) {
+    console.log("Deleting old image:", old.image_url);
+    await deleteImageFromUrl(old.image_url);
+  } else {
+    console.log("Skipping image delete:", { hadOld: !!old?.image_url, urlsMatch: old?.image_url === image_url });
   }
 
   return NextResponse.json(data);

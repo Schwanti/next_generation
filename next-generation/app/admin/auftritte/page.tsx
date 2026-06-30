@@ -4,6 +4,7 @@ import { useEffect, useState, FormEvent, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { AuthIndicator } from "@/components/auth-indicator";
+import { ConfirmModal } from "@/components/confirm-modal";
 import type { Performance } from "@/types/performance";
 
 export default function AdminAuftritte() {
@@ -20,6 +21,7 @@ export default function AdminAuftritte() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+  const [showDeleteImageModal, setShowDeleteImageModal] = useState(false);
   const router = useRouter();
   const previewUrlRef = useRef<string | null>(null);
 
@@ -91,6 +93,21 @@ export default function AdminAuftritte() {
     resetForm();
   }
 
+  function handleRemoveImage() {
+    setShowDeleteImageModal(true);
+  }
+
+  function confirmRemoveImage() {
+    setShowDeleteImageModal(false);
+    setExistingImageUrl(null);
+    setImageFile(null);
+    setImagePreview(null);
+    if (previewUrlRef.current) {
+      URL.revokeObjectURL(previewUrlRef.current);
+      previewUrlRef.current = null;
+    }
+  }
+
   function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
@@ -128,45 +145,56 @@ export default function AdminAuftritte() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setUploading(true);
+    console.log("handleSubmit CALLED");
 
-    let imageUrl: string | null = existingImageUrl;
-    if (imageFile) {
-      const uploaded = await handleImageUpload(imageFile);
-      if (!uploaded) {
-        setUploading(false);
-        return;
+    try {
+      let imageUrl: string | null = existingImageUrl;
+      console.log("handleSubmit state:", { existingImageUrl, imageFile: !!imageFile, editingId, imageUrl });
+      if (imageFile) {
+        const uploaded = await handleImageUpload(imageFile);
+        if (!uploaded) {
+          return;
+        }
+        imageUrl = uploaded;
       }
-      imageUrl = uploaded;
-    }
 
-    const isEditing = editingId !== null;
-    const url = isEditing ? `/api/auftritte/${editingId}` : "/api/auftritte";
-    const method = isEditing ? "PUT" : "POST";
+      const isEditing = editingId !== null;
+      const url = isEditing ? `/api/auftritte/${editingId}` : "/api/auftritte";
+      const method = isEditing ? "PUT" : "POST";
 
-    const res = await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+      const body = JSON.stringify({
         date,
         title,
         venue,
         event_type: eventType,
         image_url: imageUrl,
         featured,
-      }),
-    });
+      });
+      console.log("Sending PUT body:", body);
 
-    if (res.status === 401) {
-      router.push("/admin/login");
-      return;
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+
+      if (res.status === 401) {
+        router.push("/admin/login");
+        return;
+      }
+
+      if (res.ok) {
+        resetForm();
+        await loadPerformances();
+      } else {
+        const err = await res.text();
+        console.error("PUT failed:", res.status, err);
+      }
+    } catch (err) {
+      console.error("handleSubmit error:", err);
+    } finally {
+      setUploading(false);
     }
-
-    if (res.ok) {
-      resetForm();
-      await loadPerformances();
-    }
-
-    setUploading(false);
   }
 
   async function handleDelete(id: number) {
@@ -250,11 +278,18 @@ export default function AdminAuftritte() {
               onChange={handleFileSelect}
             />
             {(imagePreview || existingImageUrl) && (
-              <img
-                src={imagePreview || existingImageUrl || ""}
-                alt="Vorschau"
-                className="admin-preview"
-              />
+              <div className="admin-image-preview">
+                <img
+                  src={imagePreview || existingImageUrl || ""}
+                  alt="Vorschau"
+                  className="admin-preview"
+                />
+                {existingImageUrl && editingId && (
+                  <button type="button" onClick={handleRemoveImage} className="admin-delete-image">
+                    Bild löschen
+                  </button>
+                )}
+              </div>
             )}
           </div>
           <div className="admin-form-actions">
@@ -293,6 +328,14 @@ export default function AdminAuftritte() {
           </div>
         ))}
       </div>
+
+      <ConfirmModal
+        open={showDeleteImageModal}
+        title="Bild löschen"
+        message="Willst du das Bild wirklich löschen?"
+        onConfirm={confirmRemoveImage}
+        onCancel={() => setShowDeleteImageModal(false)}
+      />
     </div>
   );
 }
