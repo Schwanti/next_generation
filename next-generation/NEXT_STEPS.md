@@ -1,122 +1,81 @@
 # Next Steps – Next Generation Band Website
 
-> Stand: 29.06.2026
+> Stand: 30.06.2026
 >
 > Priorisierte Entwicklungsschritte basierend auf vollständiger Code-Analyse
 > und Absprache mit dem Auftraggeber.
 
 ---
 
-## P0 – Sicherheit (sofort) ✅
+## P0 – Sicherheit ✅
 
 ### 1. Middleware für Admin-Schutz ✅
 - `proxy.ts` mit `export async function proxy` erstellt (Next.js 16 Konvention)
 - Serverseitiger Schutz aller `/admin/*` Routen
-- Bypass für `/admin/login` **und** `/admin/register`
+- Bypass für `/admin/login`, `/admin/register` und `/admin/unauthorized`
 - Build: `ƒ Proxy (Middleware)` aktiv, keine Warnings
 
 ### 2. Security-Fixes ✅
-- **Bucket hardcoden** in `/api/upload`: nur `member-images` und `gig-images` erlaubt (zuvor via `formData.get("bucket")` steuerbar)
+- Bucket hardcoden in `/api/upload`: nur `member-images` und `gig-images` erlaubt
 - Datei-Typ-Validierung: nur JPEG, PNG, WebP, AVIF
 - Datei-Größen-Limit: max. 10 MB
-- Input-Validierung in allen POST/PUT-Routen (Pflichtfelder: date/title/venue bei Auftritten, name/role bei Band-Mitgliedern)
+- Input-Validierung in allen POST/PUT-Routen (`validString()` Helper)
+- Role-basierte Routen-Berechtigungen: `/admin/users` nur für `super_admin`
 
 ---
 
 ## P1 – Hoch
 
-### 3. Multi-User Admin mit Registration & Approval
-- Neues Auth-Konzept: Login mit **Email + Passwort** (statt nur Passwort)
-- **Registration-Seite** (`/admin/register`): Band-Mitglieder registrieren sich selbst
+### 3. Multi-User Admin mit Registration & Approval ✅
+- Auth-Konzept: Login mit Email + Passwort
+- Registration-Seite (`/admin/register`): Band-Mitglieder registrieren sich selbst
   - Email + Passwort → Supabase Auth `signUp()`
-  - Status nach Registration: `pending`
-  - Rückmeldung: "Warte auf Freischaltung"
-  - Passwort nie im Klartext (Supabase handled Hashing)
-- **Super-Admin** erhält Seite "Benutzer verwalten":
+  - Status nach Registration: `pending` via `app_metadata`
+  - Rückmeldung: "Bitte bestätige zuerst deine E-Mail, sobald ein Admin dich freigeschaltet hat..."
+- Super-Admin erhält Seite "Benutzer verwalten":
   - Liste aller registrierten User mit Status
-  - Kann User auf `editor` setzen (Freischaltung)
-- **Login** prüft: Email + Passwort + Status muss `editor` oder `super_admin` sein
-- Neue DB-Tabelle: `profiles` (linked to `auth.users` via `id`)
-  - `id` (uuid, PK, FK → auth.users.id)
-  - `email` (text)
-  - `role` (text: 'pending' | 'editor' | 'super_admin')
-  - `created_at` (timestamptz)
-  - Trigger: Bei `auth.users` INSERT automatisch `profiles`-Row mit `role='pending'` anlegen
-- `/api/auth/login` umbauen:
-  - `ADMIN_PASSWORD`-Prüfung entfernen
-  - Auto-Create-User-Logik entfernen
-  - Direkt `signInWithPassword` + Role-Check
-- `ADMIN_EMAIL`-Konstante entfällt → aus Login-Formular
+  - Kann User auf `editor` setzen (Freischaltung) oder sperren (`pending`)
+- Login prüft: Email + Passwort + Status muss `editor` oder `super_admin` sein
+- Rolle in Supabase Auth `app_metadata` (keine separate `profiles`-Tabelle)
+- Bootstrap: `ADMIN_EMAIL` + `ADMIN_PASSWORD` legt beim ersten Login Super-Admin an
+- `/admin/unauthorized`-Seite bei fehlenden Rechten
+- AuthIndicator zeigt angemeldeten Benutzer (Hauptseite + Admin)
+- Abmelden-Button in allen Admin-Seiten
 
 ### 4. Error Boundaries
 - `app/(main)/error.tsx` – öffentliche Seite
 - `app/admin/error.tsx` – Admin-Panel
-- Graceful Degradation statt weißem Bildschirm
 
 ### 5. Impressum-Seite
-**Rechtliche Einordnung:**
-- Die Website ist geschäftsmäßig (Coverband mit Buchungsanfragen) → Impressumspflicht nach §5 DDG
-- Ohne Impressum drohen Abmahnungen (500–2.000 €)
-- Relevantes Gesetz: §5 Digitale-Dienste-Gesetz (DDG), seit Mai 2024, löst §5 TMG ab
-- Inhalte identisch zur alten Version
-
-**Inhalt (von alter Seite übernommen):**
-```
-Next Generation GbR
-Thomas Schärtel
-Am Kugelberg 9
-85072 Eichstätt
-
-Kontakt: booking@nextgeneration-live.de
-```
-
-**Umsetzung:**
-- Neue Route: `app/(main)/impressum/page.tsx` (einfache Page, verlinkt im Footer)
-- Eventuell auch Datenschutzerklärung (alte Seite hatte eine unter `/j/privacy`) – zur Prüfung notieren
+- Inhalt von alter Seite übernehmen (Next Generation GbR, Thomas Schärtel, Am Kugelberg 9, 85072 Eichstätt)
+- Neue Route: `app/(main)/impressum/page.tsx`
+- Link im Footer
 
 ---
 
 ## P2 – Mittel
 
 ### 6. Logging für Admin-Änderungen
-- Neue DB-Tabelle: `admin_logs`
-  - `id` (bigint, PK)
-  - `user_email` (text)
-  - `action` (text: 'create' | 'update' | 'delete')
-  - `resource` (text: 'performance' | 'band_member')
-  - `resource_id` (int)
-  - `details` (jsonb – geänderte Felder)
-  - `created_at` (timestamptz)
-- In API-Routen (`POST/PUT/DELETE` für Auftritte und Band-Mitglieder): Log-Eintrag nach erfolgreicher Operation einfügen
-- Supabase `createAdminClient()` für Log-Schreibzugriff
+- Neue DB-Tabelle: `admin_logs` mit user_email, action, resource, details
+- Log-Einträge in API-Routen nach erfolgreicher CRUD-Operation
 
 ### 7. Bild löschen im Admin-Panel
-- Aktuell kann beim Bearbeiten eines Auftritts oder Band-Mitglieds nur ein **neues** Bild hochgeladen werden, aber das bestehende Bild **nicht entfernt** werden (zurück auf `image_url = null`)
-- Nötig: "Bild entfernen"-Button im Bearbeitungs-Formular
-  - Setzt `image_url` auf `null` in der Datenbank
-  - Löscht optional auch die Datei aus Supabase Storage
-- Betrifft: `app/admin/auftritte/page.tsx` und `app/admin/mitglieder/page.tsx`
+- "Bild entfernen"-Button im Bearbeitungs-Formular (Auftritte + Band-Mitglieder)
+- Setzt `image_url` auf `null`, löscht Datei aus Storage
 
 ### 8. Hero Redesign
-- **Neues Background-Bild** ersetzen (aktuell `public/background_picture.png`)
-- Weniger Text:
-  - Nur Band-Logo + ggf. Headline
-  - Subtitle kürzen oder entfernen
-  - CTAs reduzieren
-- **Status:** Muss vom Auftraggeber konkretisiert werden (Bild, Layout)
+- Neues Background-Bild
+- Weniger Text, reduziertere CTAs
+- Status: Muss vom Auftraggeber konkretisiert werden
 
 ### 9. SSR für Auftritte & Band-Mitglieder
-- Aktuell: Client-seitiges `useEffect` → leeres HTML beim ersten Render
-- Ziel: Daten serverseitig laden
-- `components/auftritte.tsx` & `components/band.tsx`:
-  - Fetch in Page oder als Server Component
-  - Skeleton-Loader können entfallen
-- Daten aus API-Routen → direkter Supabase-Zugriff im Page-Component
+- Daten serverseitig laden statt client-seitigem `useEffect`
+- Fetch in Page oder als Server Component
+- Skeleton-Loader können entfallen
 
 ### 10. sitemap.xml & robots.txt
 - `app/sitemap.ts`: Listet öffentliche Seiten (`/`, `/impressum`)
 - `app/robots.ts`: Erlaubt Crawlen, blockt `/admin/*`
-- Geringer Aufwand (< 30 Zeilen), keine Dependencies
 
 ---
 
@@ -127,10 +86,9 @@ Kontakt: booking@nextgeneration-live.de
 - Ggf. zu WebP konvertieren
 
 ### 12. Tailwind CSS Analyse
-- Tailwind v4 installiert, aber **komplett ungenutzt** (alles in 1593 Zeilen custom CSS)
+- Tailwind v4 installiert, aber komplett ungenutzt (alles in custom CSS)
 - Option A: Entfernen → `npm uninstall tailwindcss @tailwindcss/postcss`
-- Option B: Migration auf Utility-Klassen → kein dringender Bedarf
-- **Empfehlung:** Option A
+- Option B: Migration auf Utility-Klassen
 
 ### 13. Login Rate-Limiting
 - `/api/auth/login` vor Brute-Force schützen
@@ -152,23 +110,16 @@ Kontakt: booking@nextgeneration-live.de
 ## Umsetzungsreihenfolge
 
 ```
-P0 (sofort)
-├── 1. Middleware + Security-Fixes
-│
-P1 (nächster Durchgang)
-├── 3. Multi-User Auth + Registration
-├── 4. Error Boundaries
-├── 5. Impressum-Seite
-│
-P2 (danach)
-├── 6. Logging
-├── 7. Bild löschen im Admin-Panel
-├── 8. Hero Redesign
-├── 9. SSR
-├── 10. sitemap + robots.txt
-│
-P3 (optional)
-├── 11. Bildoptimierung
-├── 12. Tailwind entfernen
-├── 13. Rate-Limiting
+P0 (sofort)     ✅ Abgeschlossen
+P1 (Hoch)       ├── 3. Multi-User Auth ✅
+                ├── 4. Error Boundaries
+                ├── 5. Impressum-Seite
+P2 (Mittel)     ├── 6. Logging
+                ├── 7. Bild löschen
+                ├── 8. Hero Redesign
+                ├── 9. SSR
+                ├── 10. sitemap + robots.txt
+P3 (Niedrig)    ├── 11. Bildoptimierung
+                ├── 12. Tailwind entfernen
+                ├── 13. Rate-Limiting
 ```

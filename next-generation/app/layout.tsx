@@ -61,7 +61,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable} ${barlowCondensed.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable} ${barlowCondensed.variable}`}
       >
         <a href="#main-content" className="skip-link">
           Zum Inhalt springen

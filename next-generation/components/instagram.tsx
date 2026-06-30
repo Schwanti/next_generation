@@ -5,7 +5,7 @@ export function InstagramGallery() {
     <section id="gallery" className="instagram-section">
       <div className="instagram-header">
         <p className="instagram-label">
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="2" y="2" width="20" height="20" rx="5" />
             <circle cx="12" cy="12" r="4" />
             <circle cx="18" cy="6" r="1" fill="currentColor" />

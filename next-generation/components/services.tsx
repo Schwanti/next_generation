@@ -57,7 +57,7 @@ export function ServicesPage() {
         {services.map((service) => (
           <div key={service.id} className={`service-card ${service.featured ? 'featured' : ''}`}>
             {service.featured && <span className="service-badge">Beliebt</span>}
-            <div className="service-icon"><service.Icon className="w-8 h-8" /></div>
+            <div className="service-icon"><service.Icon style={{ width: 32, height: 32 }} /></div>
             <h3>{service.title}</h3>
             <p>{service.description}</p>
           </div>
