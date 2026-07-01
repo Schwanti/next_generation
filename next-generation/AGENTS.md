@@ -46,6 +46,24 @@ npm run lint   # ESLint
 - [ ] Performances section with admin panel
 - [ ] Contact form
 
+## Deployment (Vercel)
+
+### Rate Limiting mit Upstash Redis
+
+Das Rate-Limit für Login (`lib/rate-limit.ts`) verwendet **Upstash Redis**, sobald die folgenden Environment-Variablen gesetzt sind:
+
+```
+UPSTASH_REDIS_REST_URL=https://<deine-instanz>.upstash.io
+UPSTASH_REDIS_REST_TOKEN=<token>
+```
+
+Ohne diese Variablen fällt es automatisch auf In-Memory zurück (nur für lokale Entwicklung geeignet).
+
+**Setup auf Vercel:**
+1. [Upstash Redis](https://console.upstash.com/) Konto erstellen und eine Redis-Instanz anlegen
+2. Die beiden Variablen in den Vercel Project Settings → Environment Variables einfügen
+3. Erneutes Deployment auslösen
+
 ## Design Direction
 
 Upgrade of https://www.nextgeneration-live.de/ - simple, professional one-page site for a cover band from Eichstätt.

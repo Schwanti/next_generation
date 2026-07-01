@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   const { email, password } = await request.json();
@@ -12,7 +13,31 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const response = NextResponse.json({ success: true });
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown";
+
+  const { success, remaining, resetInMs } = await rateLimit(ip);
+
+  if (!success) {
+    return NextResponse.json(
+      { error: "Zu viele Login-Versuche. Bitte versuche es später erneut." },
+      {
+        status: 429,
+        headers: {
+          "Retry-After": String(Math.ceil(resetInMs / 1000)),
+          "X-RateLimit-Remaining": "0",
+        },
+      },
+    );
+  }
+
+  const response = NextResponse.json({ success: true }, {
+    headers: {
+      "X-RateLimit-Remaining": String(remaining),
+    },
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
