@@ -10,7 +10,7 @@ export function NavBar() {
   return (
     <nav className="nav">
       <div className="nav-logo">
-        <Image src="/next_generation_logo.png" alt="Logo" width={80} height={80} />
+        <Image src="/next_generation_logo.png" alt="Logo" width={80} height={45} />
       </div>
 
       <ul id="nav-menu" className={`nav-menu ${menuOpen ? 'open' : ''}`}>

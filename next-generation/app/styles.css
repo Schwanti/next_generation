@@ -1646,22 +1646,23 @@ html {
   }
 }
 
-.confirm-modal {
-  border: none;
-  border-radius: 0.75rem;
-  padding: 0;
-  margin: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  width: 90vw;
-}
-
-.confirm-modal::backdrop {
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
 .confirm-modal-content {
+  background: #fff;
+  border-radius: 0.75rem;
   padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90vw;
 }
 
 .confirm-modal-content h3 {

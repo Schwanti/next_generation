@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
 export function ConfirmModal({
   open,
   title,
@@ -15,34 +13,11 @@ export function ConfirmModal({
   onConfirm: () => void;
   onCancel: () => void;
 }) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const el = dialogRef.current;
-    if (!el) return;
-    if (open) {
-      el.showModal();
-    } else {
-      el.close();
-    }
-  }, [open]);
-
-  useEffect(() => {
-    const el = dialogRef.current;
-    if (!el) return;
-    const handler = (e: Event) => {
-      e.preventDefault();
-      onCancel();
-    };
-    el.addEventListener("cancel", handler);
-    return () => el.removeEventListener("cancel", handler);
-  }, [onCancel]);
-
   if (!open) return null;
 
   return (
-    <dialog ref={dialogRef} className="confirm-modal">
-      <div className="confirm-modal-content">
+    <div className="confirm-overlay" onClick={onCancel}>
+      <div className="confirm-modal-content" onClick={(e) => e.stopPropagation()}>
         <h3>{title}</h3>
         <p>{message}</p>
         <div className="confirm-modal-actions">
@@ -54,6 +29,6 @@ export function ConfirmModal({
           </button>
         </div>
       </div>
-    </dialog>
+    </div>
   );
 }
