@@ -26,17 +26,9 @@ export function Hero() {
       </div>
 
       <div className="hero-content">
-        <Image src="/next_generation_logo.png" alt="Next Generation" width={320} height={171} className="hero-logo" />
-        <h1 className="hero-title">
-          Party Musik Live aus<br />Eichstätt
-        </h1>
-        <p className="hero-subtitle">
-          Wir machen deine Feier zu einem unvergesslichen Erlebnis.
-          Von Bierzelt bis Hochzeit – wir spielen, ihr feiert.
-        </p>
+        <Image src="/next_generation_logo.png" alt="Next Generation" width={500} height={267} className="hero-logo" />
         <div className="hero-buttons">
           <a href="#kontakt" className="btn btn-primary">Buchen</a>
-          <a href="#services" className="btn btn-secondary">Mehr</a>
         </div>
       </div>
 
