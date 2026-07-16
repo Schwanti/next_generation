@@ -4,10 +4,19 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+function getInitialError(): string {
+  if (typeof window === "undefined") return "";
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("error") === "service_unavailable") {
+    return "Anmeldedienst momentan nicht erreichbar. Bitte versuch es später nochmal.";
+  }
+  return "";
+}
+
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(getInitialError);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -16,17 +25,22 @@ export default function AdminLogin() {
     setLoading(true);
     setError("");
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (res.ok) {
-      router.push("/admin/auftritte");
-    } else {
-      const data = await res.json();
-      setError(data.error || "Fehler beim Anmelden");
+      if (res.ok) {
+        router.push("/admin/auftritte");
+      } else {
+        const data = await res.json();
+        setError(data.error || "Fehler beim Anmelden");
+        setLoading(false);
+      }
+    } catch {
+      setError("Anmeldedienst momentan nicht erreichbar. Bitte versuch es später nochmal.");
       setLoading(false);
     }
   }

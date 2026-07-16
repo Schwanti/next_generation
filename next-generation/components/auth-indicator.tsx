@@ -8,14 +8,18 @@ export function AuthIndicator() {
   const supabase = createClient();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
-      if (s?.user) {
-        setSession({
-          email: s.user.email ?? "",
-          role: (s.user.app_metadata?.role as string) ?? "",
-        });
-      }
-    });
+    supabase.auth.getSession()
+      .then(({ data: { session: s } }) => {
+        if (s?.user) {
+          setSession({
+            email: s.user.email ?? "",
+            role: (s.user.app_metadata?.role as string) ?? "",
+          });
+        }
+      })
+      .catch(() => {
+        // Supabase nicht erreichbar — Indicator bleibt unsichtbar
+      });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!session) return null;

@@ -103,6 +103,7 @@ export default function AdminMitglieder() {
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [showDeleteImageModal, setShowDeleteImageModal] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const router = useRouter();
   const previewUrlRef = useRef<string | null>(null);
 
@@ -124,11 +125,19 @@ export default function AdminMitglieder() {
       setIsSuperAdmin(user?.app_metadata?.role === "super_admin");
 
       const res = await fetch("/api/band-members");
-      if (!res.ok) throw new Error("Fehler beim Laden");
+      if (!res.ok) {
+        if (res.status === 503) {
+          setLoadError("Datenbank ist momentan nicht erreichbar. Bitte versuch es später nochmal.");
+        } else {
+          setLoadError("Fehler beim Laden der Bandmitglieder.");
+        }
+        return;
+      }
       const data = await res.json();
       setMembers(data);
+      setLoadError(null);
     } catch {
-      alert("Fehler beim Laden der Bandmitglieder");
+      setLoadError("Verbindung fehlgeschlagen. Bitte versuch es später nochmal.");
     } finally {
       setLoading(false);
     }
@@ -319,6 +328,38 @@ export default function AdminMitglieder() {
   );
 
   if (loading) return <div className="admin-loading">Lädt...</div>;
+
+  if (loadError) {
+    return (
+      <div className="admin-page">
+        <div className="admin-header">
+          <h1>Bandmitglieder verwalten</h1>
+          <div className="admin-header-links">
+            <Link href="/admin/auftritte" className="btn btn-ghost">Auftritte</Link>
+            <Link href="/" className="btn btn-ghost">Zur Website</Link>
+          </div>
+          <button
+            onClick={async () => {
+              const supabase = createClient();
+              await supabase.auth.signOut();
+              router.push("/");
+            }}
+            className="btn btn-ghost"
+            style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+          >
+            Abmelden
+          </button>
+          <AuthIndicator />
+        </div>
+        <div className="admin-error" style={{ padding: "2rem", textAlign: "center" }}>
+          <p>{loadError}</p>
+          <button onClick={() => { setLoadError(null); setLoading(true); loadMembers(); }} className="btn btn-ghost" style={{ marginTop: "1rem" }}>
+            Erneut versuchen
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const memberIds = members.map((m) => m.id);
 

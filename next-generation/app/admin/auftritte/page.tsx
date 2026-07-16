@@ -22,6 +22,7 @@ export default function AdminAuftritte() {
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [showDeleteImageModal, setShowDeleteImageModal] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const router = useRouter();
   const previewUrlRef = useRef<string | null>(null);
 
@@ -38,11 +39,19 @@ export default function AdminAuftritte() {
       setIsSuperAdmin(user?.app_metadata?.role === "super_admin");
 
       const res = await fetch("/api/auftritte");
-      if (!res.ok) throw new Error("Fehler beim Laden");
+      if (!res.ok) {
+        if (res.status === 503) {
+          setLoadError("Datenbank ist momentan nicht erreichbar. Bitte versuch es später nochmal.");
+        } else {
+          setLoadError("Fehler beim Laden der Auftritte.");
+        }
+        return;
+      }
       const data = await res.json();
       setPerformances(data);
+      setLoadError(null);
     } catch {
-      alert("Fehler beim Laden der Auftritte");
+      setLoadError("Verbindung fehlgeschlagen. Bitte versuch es später nochmal.");
     } finally {
       setLoading(false);
     }
@@ -213,6 +222,42 @@ export default function AdminAuftritte() {
   }
 
   if (loading) return <div className="admin-loading">Lädt...</div>;
+
+  if (loadError) {
+    return (
+      <div className="admin-page">
+        <div className="admin-header">
+          <h1>Auftritte verwalten</h1>
+          <div className="admin-header-links">
+            <button onClick={() => router.push("/admin/mitglieder")} className="btn btn-ghost">
+              Bandmitglieder
+            </button>
+            <button onClick={() => router.push("/")} className="btn btn-ghost">
+              Zur Website
+            </button>
+          </div>
+          <button
+            onClick={async () => {
+              const supabase = createClient();
+              await supabase.auth.signOut();
+              router.push("/");
+            }}
+            className="btn btn-ghost"
+            style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+          >
+            Abmelden
+          </button>
+          <AuthIndicator />
+        </div>
+        <div className="admin-error" style={{ padding: "2rem", textAlign: "center" }}>
+          <p>{loadError}</p>
+          <button onClick={() => { setLoadError(null); setLoading(true); loadPerformances(); }} className="btn btn-ghost" style={{ marginTop: "1rem" }}>
+            Erneut versuchen
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-page">

@@ -7,15 +7,22 @@ import type { BandMember } from "@/types/band-member";
 export function BandSection() {
   const [members, setMembers] = useState<BandMember[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch("/api/band-members")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Server error");
+        return res.json();
+      })
       .then((data) => {
         setMembers(data || []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -36,6 +43,11 @@ export function BandSection() {
               <div className="band-member-skeleton-text band-member-skeleton-small" />
             </div>
           ))
+          : error ? (
+            <p style={{ gridColumn: "1 / -1", color: "#666", padding: "2rem 0" }}>
+              Die Bandmitglieder konnten gerade nicht geladen werden. Bitte versuch es später nochmal.
+            </p>
+          )
           : members.map((member) => (
             <div key={member.id} className="band-member">
               <div className="band-member-image">

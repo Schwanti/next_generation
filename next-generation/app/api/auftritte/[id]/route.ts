@@ -13,72 +13,97 @@ async function requireAuth() {
 }
 
 async function getPerformanceOrNull(id: string) {
-  const admin = createAdminClient();
-  const { data } = await admin.from("performances").select("id, image_url").eq("id", id).single();
-  return data;
+  try {
+    const admin = createAdminClient();
+    const { data, error } = await admin.from("performances").select("id, image_url").eq("id", id).single();
+    if (error) {
+      console.error("getPerformanceOrNull error:", error);
+      return null;
+    }
+    return data;
+  } catch (e) {
+    console.error("getPerformanceOrNull connection error:", e);
+    return null;
+  }
 }
 
 export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const authError = await requireAuth();
-  if (authError) return authError;
+  try {
+    const authError = await requireAuth();
+    if (authError) return authError;
 
-  const { id } = await params;
+    const { id } = await params;
 
-  const performance = await getPerformanceOrNull(id);
+    const performance = await getPerformanceOrNull(id);
 
-  const admin = createAdminClient();
-  const { error } = await admin.from("performances").delete().eq("id", id);
+    const admin = createAdminClient();
+    const { error } = await admin.from("performances").delete().eq("id", id);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    await deleteImageFromUrl(performance?.image_url ?? null);
+
+    return NextResponse.json({ success: true });
+  } catch (e) {
+    console.error("DELETE /api/auftritte/[id] error:", e);
+    return NextResponse.json(
+      { error: "Datenbank nicht erreichbar" },
+      { status: 503 }
+    );
   }
-
-  await deleteImageFromUrl(performance?.image_url ?? null);
-
-  return NextResponse.json({ success: true });
 }
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const authError = await requireAuth();
-  if (authError) return authError;
+  try {
+    const authError = await requireAuth();
+    if (authError) return authError;
 
-  const { id } = await params;
-  const body = await request.json();
-  const { date, title, venue, event_type, image_url, featured } = body;
+    const { id } = await params;
+    const body = await request.json();
+    const { date, title, venue, event_type, image_url, featured } = body;
 
-  const validString = (v: unknown) => typeof v === "string" && v.trim().length > 0;
-  if (!validString(date) || !validString(title) || !validString(venue)) {
-    return NextResponse.json({ error: "Datum, Titel und Ort sind Pflichtfelder" }, { status: 400 });
+    const validString = (v: unknown) => typeof v === "string" && v.trim().length > 0;
+    if (!validString(date) || !validString(title) || !validString(venue)) {
+      return NextResponse.json({ error: "Datum, Titel und Ort sind Pflichtfelder" }, { status: 400 });
+    }
+
+    const old = await getPerformanceOrNull(id);
+
+    console.log("PUT performance:", { id, oldImageUrl: old?.image_url, newImageUrl: image_url });
+
+    const admin = createAdminClient();
+    const { data, error } = await admin
+      .from("performances")
+      .update({ date, title, venue, event_type, image_url, featured })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    if (old?.image_url && old.image_url !== image_url) {
+      console.log("Deleting old image:", old.image_url);
+      await deleteImageFromUrl(old.image_url);
+    } else {
+      console.log("Skipping image delete:", { hadOld: !!old?.image_url, urlsMatch: old?.image_url === image_url });
+    }
+
+    return NextResponse.json(data);
+  } catch (e) {
+    console.error("PUT /api/auftritte/[id] error:", e);
+    return NextResponse.json(
+      { error: "Datenbank nicht erreichbar" },
+      { status: 503 }
+    );
   }
-
-  const old = await getPerformanceOrNull(id);
-
-  console.log("PUT performance:", { id, oldImageUrl: old?.image_url, newImageUrl: image_url });
-
-  const admin = createAdminClient();
-  const { data, error } = await admin
-    .from("performances")
-    .update({ date, title, venue, event_type, image_url, featured })
-    .eq("id", id)
-    .select()
-    .single();
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  if (old?.image_url && old.image_url !== image_url) {
-    console.log("Deleting old image:", old.image_url);
-    await deleteImageFromUrl(old.image_url);
-  } else {
-    console.log("Skipping image delete:", { hadOld: !!old?.image_url, urlsMatch: old?.image_url === image_url });
-  }
-
-  return NextResponse.json(data);
 }

@@ -22,15 +22,22 @@ export function Auftritte() {
   const [performances, setPerformances] = useState<Performance[]>([]);
   const [showAllPast, setShowAllPast] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     fetch("/api/auftritte")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Server error");
+        return res.json();
+      })
       .then((data) => {
         setPerformances(data || []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   }, []);
 
   const upcoming = performances
@@ -44,6 +51,20 @@ export function Auftritte() {
   const visiblePast = showAllPast ? past : past.slice(0, 3);
 
   if (loading) return null;
+
+  if (error) {
+    return (
+      <section id="auftritte" className="auftritte-section">
+        <div className="auftritte-header">
+          <p className="auftritte-label">Auftritte</p>
+          <h2 className="auftritte-title">Nächste Termine</h2>
+          <p className="auftritte-subtitle">
+            Die Termine konnten gerade nicht geladen werden. Bitte versuch es später nochmal.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   const hasUpcoming = upcoming.length > 0;
   const hasPast = past.length > 0;

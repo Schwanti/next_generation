@@ -12,49 +12,65 @@ async function requireSuperAdmin() {
 }
 
 export async function GET() {
-  const authError = await requireSuperAdmin();
-  if (authError) return authError;
+  try {
+    const authError = await requireSuperAdmin();
+    if (authError) return authError;
 
-  const admin = createAdminClient();
-  const { data, error } = await admin.auth.admin.listUsers();
+    const admin = createAdminClient();
+    const { data, error } = await admin.auth.admin.listUsers();
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    const users = data.users.map((u) => ({
+      id: u.id,
+      email: u.email,
+      role: u.app_metadata?.role || "pending",
+      created_at: u.created_at,
+    }));
+
+    return NextResponse.json(users);
+  } catch (e) {
+    console.error("GET /api/admin/users error:", e);
+    return NextResponse.json(
+      { error: "Dienst nicht erreichbar" },
+      { status: 503 }
+    );
   }
-
-  const users = data.users.map((u) => ({
-    id: u.id,
-    email: u.email,
-    role: u.app_metadata?.role || "pending",
-    created_at: u.created_at,
-  }));
-
-  return NextResponse.json(users);
 }
 
 export async function PUT(request: Request) {
-  const authError = await requireSuperAdmin();
-  if (authError) return authError;
+  try {
+    const authError = await requireSuperAdmin();
+    if (authError) return authError;
 
-  const body = await request.json();
-  const { userId, role } = body;
+    const body = await request.json();
+    const { userId, role } = body;
 
-  if (!userId || !role) {
-    return NextResponse.json({ error: "Benutzer-ID und Rolle sind Pflichtfelder" }, { status: 400 });
+    if (!userId || !role) {
+      return NextResponse.json({ error: "Benutzer-ID und Rolle sind Pflichtfelder" }, { status: 400 });
+    }
+
+    if (!["editor", "pending"].includes(role)) {
+      return NextResponse.json({ error: "Ungültige Rolle" }, { status: 400 });
+    }
+
+    const admin = createAdminClient();
+    const { error } = await admin.auth.admin.updateUserById(userId, {
+      app_metadata: { role },
+    });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (e) {
+    console.error("PUT /api/admin/users error:", e);
+    return NextResponse.json(
+      { error: "Dienst nicht erreichbar" },
+      { status: 503 }
+    );
   }
-
-  if (!["editor", "pending"].includes(role)) {
-    return NextResponse.json({ error: "Ungültige Rolle" }, { status: 400 });
-  }
-
-  const admin = createAdminClient();
-  const { error } = await admin.auth.admin.updateUserById(userId, {
-    app_metadata: { role },
-  });
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ success: true });
 }
