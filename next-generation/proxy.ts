@@ -38,17 +38,15 @@ export async function proxy(request: NextRequest) {
       }
     );
 
-    const { data: { session } } = await supabase.auth.getSession();
+    const { data: { user } } = await supabase.auth.getUser();
 
-    if (!session) {
+    if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = "/admin/login";
       return NextResponse.redirect(url);
     }
 
-    // Check role from app_metadata (fresh fetch via getUser)
-    const { data: { user } } = await supabase.auth.getUser();
-    const role = user?.app_metadata?.role as string | undefined;
+    const role = user.app_metadata?.role as string | undefined;
 
     if (!role || role === "pending") {
       const url = request.nextUrl.clone();

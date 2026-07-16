@@ -5,8 +5,8 @@ import { deleteImageFromUrl } from "@/lib/supabase/storage";
 
 async function requireAuth() {
   const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
     return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
   }
   return null;

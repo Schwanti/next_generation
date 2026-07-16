@@ -1097,6 +1097,24 @@ html {
   color: rgba(255, 255, 255, 0.4);
 }
 
+.footer-legal {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.footer-legal-link {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: color 0.3s;
+}
+
+.footer-legal-link:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
 /* Auftritte Section */
 .auftritte-section {
   background: #f8f8f8;
@@ -1681,4 +1699,64 @@ html {
   display: flex;
   gap: 0.75rem;
   justify-content: flex-end;
+}
+
+/* Legal Pages (Impressum, Datenschutz) */
+.legal-page {
+  padding: 8rem 2rem 4rem;
+  background: #fff;
+}
+
+.legal-content {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #333;
+  line-height: 1.7;
+}
+
+.legal-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: #140528;
+}
+
+.legal-content h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: #140528;
+}
+
+.legal-content h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #140528;
+}
+
+.legal-content p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.legal-content ul {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.legal-content li {
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.legal-content a {
+  color: #e53e1a;
+  text-decoration: none;
+}
+
+.legal-content a:hover {
+  text-decoration: underline;
 }

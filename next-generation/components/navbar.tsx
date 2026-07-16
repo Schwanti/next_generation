@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image"
+import Link from "next/link";
 import { useState } from "react";
 import { AuthIndicator } from "@/components/auth-indicator";
 
@@ -10,7 +11,9 @@ export function NavBar() {
   return (
     <nav className="nav">
       <div className="nav-logo">
-        <Image src="/next_generation_logo.png" alt="Logo" width={80} height={45} />
+        <Link href="/">
+          <Image src="/next_generation_logo.png" alt="Logo" width={80} height={45} />
+        </Link>
       </div>
 
       <ul id="nav-menu" className={`nav-menu ${menuOpen ? 'open' : ''}`}>

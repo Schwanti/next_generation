@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CONTACT_EMAIL } from "@/lib/constants";
 
 export function Footer() {
@@ -30,6 +31,14 @@ export function Footer() {
       </div>
       <div className="footer-bottom">
         <p>&copy; {new Date().getFullYear()} Next Generation. Alle Rechte vorbehalten.</p>
+        <div className="footer-legal">
+          <Link href="/impressum" className="footer-legal-link">
+            Impressum
+          </Link>
+          <Link href="/datenschutz" className="footer-legal-link">
+            Datenschutz
+          </Link>
+        </div>
       </div>
     </footer>
   );
