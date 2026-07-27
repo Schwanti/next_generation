@@ -2,11 +2,36 @@
 
 import Image from "next/image"
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { AuthIndicator } from "@/components/auth-indicator";
 
 export function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const isHome = pathname === "/";
+  const pendingScroll = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (isHome && pendingScroll.current) {
+      const section = pendingScroll.current;
+      pendingScroll.current = null;
+      requestAnimationFrame(() => {
+        document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  }, [isHome]);
+
+  function navigateTo(section: string) {
+    setMenuOpen(false);
+    if (isHome) {
+      document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      pendingScroll.current = section;
+      router.push("/");
+    }
+  }
 
   return (
     <nav className="nav">
@@ -17,18 +42,14 @@ export function NavBar() {
       </div>
 
       <ul id="nav-menu" className={`nav-menu ${menuOpen ? 'open' : ''}`}>
-        <li><a href="#hero" className="nav-link">Startseite</a></li>
-        <li><a href="#auftritte" className="nav-link">Auftritte</a></li>
-        <li><a href="#band" className="nav-link">Über uns</a></li>
-        <li>
-          <a href="#gallery" className="nav-link">
-            Galerie
-          </a>
-        </li>
+        <li><a href="#hero" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("hero"); }}>Startseite</a></li>
+        <li><a href="#auftritte" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("auftritte"); }}>Auftritte</a></li>
+        <li><a href="#band" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("band"); }}>Über uns</a></li>
+        <li><a href="#gallery" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("gallery"); }}>Galerie</a></li>
       </ul>
 
       <div className="nav-actions">
-        <a href="#kontakt" className="nav-btn nav-btn-primary">Buchen</a>
+        <a href="#kontakt" className="nav-btn nav-btn-primary" onClick={(e) => { e.preventDefault(); navigateTo("kontakt"); }}>Buchen</a>
         <AuthIndicator />
       </div>
 
