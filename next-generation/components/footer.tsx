@@ -1,7 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { CONTACT_EMAIL } from "@/lib/constants";
+import { useCookieConsent } from "@/components/cookie-consent";
 
 export function Footer() {
+  const { reopenBanner } = useCookieConsent();
+
   return (
     <footer className="footer-section">
       <div className="footer-content">
@@ -38,6 +43,13 @@ export function Footer() {
           <Link href="/datenschutz" className="footer-legal-link">
             Datenschutz
           </Link>
+          <button
+            onClick={reopenBanner}
+            className="footer-legal-link footer-legal-btn"
+            type="button"
+          >
+            Cookie-Einstellungen
+          </button>
         </div>
       </div>
     </footer>

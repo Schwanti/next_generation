@@ -33,12 +33,12 @@ export default function DatenschutzPage() {
         <h4>Wie erfassen wir Ihre Daten?</h4>
         <p>
           Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese
-          mitteilen. Hierbei kann es sich z. B. um Daten handeln, die Sie in
+          mitteilen. Hierbei kann es sich z.&nbsp;B. um Daten handeln, die Sie in
           ein Kontaktformular eingeben.
         </p>
         <p>
           Andere Daten werden automatisch beim Besuch der Website durch unsere
-          IT-Systeme erfasst. Das sind vor allem technische Daten (z. B.
+          IT-Systeme erfasst. Das sind vor allem technische Daten (z.&nbsp;B.
           Internetbrowser, Betriebssystem oder Uhrzeit des Seitenaufrufs).
         </p>
 
@@ -114,8 +114,28 @@ export default function DatenschutzPage() {
           ein berechtigtes Löschersuchen geltend machen oder eine Einwilligung
           zur Datenverarbeitung widerrufen, werden Ihre Daten gelöscht, sofern
           wir keine anderen rechtlich zulässigen Gründe für die Speicherung
-          Ihrer personenbezogenen Daten haben (z. B. steuer-
+          Ihrer personenbezogenen Daten haben (z.&nbsp;B. steuer-
           oder handelsrechtliche Aufbewahrungsfristen).
+        </p>
+
+        <h3>Aufsichtsbehörde</h3>
+        <p>
+          Zuständige Aufsichtsbehörde für Datenschutzfragen ist:
+        </p>
+        <p>
+          Bayerisches Landesamt für Datenschutzaufsicht (BayLDA)<br />
+          Promenade 27<br />
+          91522 Ansbach<br />
+          Tel.: 0981 180093-0<br />
+          E-Mail:{" "}
+          <a href="mailto:poststelle@lda.bayern.de">
+            poststelle@lda.bayern.de
+          </a>
+          <br />
+          Website:{" "}
+          <a href="https://www.lda.bayern.de" target="_blank" rel="noopener noreferrer">
+            www.lda.bayern.de
+          </a>
         </p>
 
         <h2>4. Datenerfassung auf dieser Website</h2>
@@ -139,8 +159,8 @@ export default function DatenschutzPage() {
           vorgenommen.
         </p>
         <p>
-          Die Erfassung dieser Daten erfolgt auf Grundlage von Art. 6 Abs. 1
-          lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an
+          Die Erfassung dieser Daten erfolgt auf Grundlage von Art.&nbsp;6 Abs.&nbsp;1
+          lit.&nbsp;f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an
           der fehlerfreien Darstellung und Optimierung seiner Website.
         </p>
 
@@ -153,24 +173,101 @@ export default function DatenschutzPage() {
           gesetzlichen Aufbewahrungspflichten bestehen.
         </p>
 
-        <h2>5. Plugins und Drittanbieter</h2>
+        <h2>5. Cookies und Einwilligungsverwaltung</h2>
 
-        <h3>Instagram</h3>
+        <h3>Unser Cookie-Banner</h3>
         <p>
-          Auf dieser Website wird ein Instagram-Feed des Dienstes Instagram
-          (Instagram Inc., 1601 Willow Road, Menlo Park, CA, 94025, USA)
-          eingebunden. Beim Laden des Instagram-Feeds wird eine Verbindung zu
-          den Servern von Instagram hergestellt. Hierbei kann Instagram erfahren,
-          dass Sie unsere Website besuchen. Wenn Sie in Ihrem Instagram-Angemeldet
-          sind, kann Instagram Ihren Besuch Ihrem Instagram-Konto zuordnen.
+          Wir setzen ein Cookie-Einwilligungs-Tool ein, um Ihre Zustimmung zu
+          Cookies und Drittanbieterdiensten einzuholen und zu dokumentieren.
+          Dabei wird ein technisches Cookie (<code>cookie-consent</code>)
+          gesetzt, um Ihre Einstellungen zu speichern. Dieses Cookie ist
+          essenziell und wird immer gesetzt, unabhängig von Ihrer Einwilligung.
         </p>
         <p>
-          Die Nutzung von Instagram erfolgt auf Grundlage von Art. 6 Abs. 1
-          lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an
-          der möglichst attraktiven Darstellung seiner Webseite.
+          Rechtsgrundlage: Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;c DSGVO (rechtliche
+          Verpflichtung zur Dokumentation der Einwilligung gemäß Art.&nbsp;7
+          Abs.&nbsp;1 DSGVO) in Verbindung mit §&nbsp;25 TTDSG.
         </p>
 
-        <h2>6. Ihre Rechte</h2>
+        <h3>Cookie-Übersicht</h3>
+        <table style={{ width: "100%", borderCollapse: "collapse", margin: "1rem 0" }}>
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Cookie</th>
+              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Zweck</th>
+              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Dauer</th>
+              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Rechtsgrundlage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}><code>cookie-consent</code></td>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Speicherung Ihrer Cookie-Einstellungen</td>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>1 Jahr</td>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;c DSGVO</td>
+            </tr>
+            <tr>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}><code>sb-*-auth-token</code></td>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Authentifizierung für den Admin-Bereich (Supabase)</td>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Session</td>
+              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>6. Plugins und Drittanbieter</h2>
+
+        <h3>Instagram-Feed (Elfsight)</h3>
+        <p>
+          Auf dieser Website wird ein Instagram-Feed des Dienstes Elfsight
+          (Elfsight Limited, 200301, Cyprus) eingebunden, der Beiträge vom
+          Instagram-Account der Band anzeigt. Der Dienst wird erst geladen,
+          wenn Sie in den Cookie-Einstellungen Marketing-Cookies akzeptiert
+          haben.
+        </p>
+        <p>
+          Beim Laden des Instagram-Feeds wird eine Verbindung zu den Servern
+          von Elfsight und Instagram hergestellt. Hierbei kann Elfsight bzw.
+          Instagram erfahren, dass Sie unsere Website besuchen. Wenn Sie in
+          Ihrem Instagram-Account angemeldet sind, kann Instagram Ihren Besuch
+          Ihrem Instagram-Konto zuordnen.
+        </p>
+        <p>
+          Die Nutzung erfolgt auf Grundlage von Art.&nbsp;6 Abs.&nbsp;1
+          lit.&nbsp;a DSGVO (Einwilligung). Sie können Ihre Einwilligung jederzeit
+          über die Cookie-Einstellungen widerrufen.
+        </p>
+        <p>
+          Anbieter: Elfsight Limited, 200301, Cyprus.
+          <br />
+          Datenschutzerklärung:{" "}
+          <a href="https://elfsight.com/privacy-policy/" target="_blank" rel="noopener noreferrer">
+            https://elfsight.com/privacy-policy/
+          </a>
+        </p>
+
+        <h2>7. Authentifizierung (Supabase)</h2>
+        <p>
+          Für den geschützten Admin-Bereich nutzen wir Supabase
+          (Supabase Inc., USA) als Authentifizierungsdienst. Dabei werden
+          technisch notwendige Cookies (z.&nbsp;B. <code>sb-*-auth-token</code>)
+          gesetzt, um Ihre Sitzung zu verwalten.
+        </p>
+        <p>
+          Supabase verarbeitet Daten in den USA. Der Datentransfer erfolgt auf
+          Grundlage von Standardvertragsklauseln gemäß Art.&nbsp;46 Abs.&nbsp;3
+          DSGVO.
+        </p>
+        <p>
+          Anbieter: Supabase Inc., USA.
+          <br />
+          Datenschutzerklärung:{" "}
+          <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">
+            https://supabase.com/privacy
+          </a>
+        </p>
+
+        <h2>8. Ihre Rechte</h2>
         <p>
           Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung
           und Einschränkung der Verarbeitung Ihrer personenbezogenen Daten
@@ -179,7 +276,9 @@ export default function DatenschutzPage() {
         </p>
         <p>
           Wenn Sie eine Einwilligung zur Datenverarbeitung erteilt haben, können
-          Sie diese jederzeit für die Zukunft widerrufen.
+          Sie diese jederzeit für die Zukunft widerrufen. Hierzu können Sie Ihre
+          Einstellungen über den Button &bdquo;Cookie-Einstellungen&ldquo; unten rechts auf
+          jeder Seite aufrufen.
         </p>
         <p>
           Hierzu sowie zu weiteren Fragen zum Thema Datenschutz können Sie sich

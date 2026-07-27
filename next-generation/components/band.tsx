@@ -4,6 +4,40 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import type { BandMember } from "@/types/band-member";
 
+function InitialsAvatar({ name }: { name: string }) {
+  const initials = name
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+
+  return (
+    <svg
+      width={200}
+      height={200}
+      viewBox="0 0 200 200"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label={name}
+    >
+      <rect width="200" height="200" rx="100" fill="#e53e1a" />
+      <text
+        x="100"
+        y="108"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="#ffffff"
+        fontSize="72"
+        fontWeight="700"
+        fontFamily="var(--font-barlow), sans-serif"
+      >
+        {initials}
+      </text>
+    </svg>
+  );
+}
+
 export function BandSection() {
   const [members, setMembers] = useState<BandMember[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +64,7 @@ export function BandSection() {
       <p className="band-label">Die Band</p>
       <h2 className="band-title">Lerne uns kennen</h2>
       <p className="band-subtitle">
-        „Next Generation“ ist eine Coverband aus dem Raum Eichstätt mit
+        &bdquo;Next Generation&rdquo; ist eine Coverband aus dem Raum Eichstätt mit
         musikalischem Schwerpunkt auf Rock- und Popmusik.
       </p>
 
@@ -51,17 +85,18 @@ export function BandSection() {
           : members.map((member) => (
             <div key={member.id} className="band-member">
               <div className="band-member-image">
-                <Image
-                  src={
-                    member.image_url ||
-                    `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(member.name)}&backgroundColor=e53e1a&textColor=ffffff`
-                  }
-                  alt={member.name}
-                  width={200}
-                  height={200}
-                  className="band-member-avatar"
-                  unoptimized
-                />
+                {member.image_url ? (
+                  <Image
+                    src={member.image_url}
+                    alt={member.name}
+                    width={200}
+                    height={200}
+                    className="band-member-avatar"
+                    unoptimized
+                  />
+                ) : (
+                  <InitialsAvatar name={member.name} />
+                )}
               </div>
               <h3 className="band-member-name">{member.name}</h3>
               <p className="band-member-role">{member.role}</p>

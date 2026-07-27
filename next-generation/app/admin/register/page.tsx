@@ -9,9 +9,14 @@ export default function AdminRegister() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!privacyAccepted) {
+      setError("Bitte akzeptiere die Datenschutzerklärung.");
+      return;
+    }
     setLoading(true);
     setError("");
 
@@ -72,6 +77,21 @@ export default function AdminRegister() {
             minLength={8}
             autoComplete="new-password"
           />
+          <label style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", fontSize: "0.85rem", color: "#ccc", lineHeight: "1.4", cursor: "pointer", marginTop: "0.25rem" }}>
+            <input
+              type="checkbox"
+              checked={privacyAccepted}
+              onChange={(e) => setPrivacyAccepted(e.target.checked)}
+              required
+              style={{ marginTop: "0.15rem", accentColor: "#e53e1a" }}
+            />
+            <span>
+              Ich akzeptiere die{" "}
+              <a href="/datenschutz" target="_blank" rel="noopener noreferrer" style={{ color: "#e53e1a" }}>
+                Datenschutzerklärung
+              </a>
+            </span>
+          </label>
           {error && <p className="admin-error">{error}</p>}
           <button type="submit" disabled={loading} className="btn btn-accent">
             {loading ? "Wird registriert..." : "Registrieren"}

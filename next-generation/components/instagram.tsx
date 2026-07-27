@@ -1,6 +1,12 @@
+"use client";
+
 import Script from "next/script";
+import { useCookieConsent } from "./cookie-consent";
 
 export function InstagramGallery() {
+  const { consent } = useCookieConsent();
+  const marketingAllowed = consent?.marketing ?? false;
+
   return (
     <section id="gallery" className="instagram-section">
       <div className="instagram-header">
@@ -23,8 +29,26 @@ export function InstagramGallery() {
       </div>
 
       <div className="elfsight-container">
-        <div className="elfsight-app-78e0ede2-0ecf-4056-b829-4a8671b29e0a" data-elfsight-app-lazy></div>
-        <Script src="https://elfsightcdn.com/platform.js" strategy="afterInteractive" />
+        {marketingAllowed ? (
+          <>
+            <div className="elfsight-app-78e0ede2-0ecf-4056-b829-4a8671b29e0a" data-elfsight-app-lazy></div>
+            <Script src="https://elfsightcdn.com/platform.js" strategy="afterInteractive" />
+          </>
+        ) : (
+          <div className="instagram-placeholder">
+            <p>
+              Instagram-Feed wird nur geladen, wenn du den Marketing-Cookies zustimmst.
+            </p>
+            <a
+              href="https://instagram.com/nextgeneration_band"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="instagram-placeholder-link"
+            >
+              Besuche uns auf Instagram
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );

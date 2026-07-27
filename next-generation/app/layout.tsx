@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Barlow, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import "./styles.css";
+import { CookieConsentProvider, CookieConsentBanner, CookieSettingsButton } from "@/components/cookie-consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,7 +71,11 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
+        <CookieConsentProvider>
+          {children}
+          <CookieConsentBanner />
+          <CookieSettingsButton />
+        </CookieConsentProvider>
       </body>
     </html>
   );
