@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Barlow, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 import "./styles.css";
 import { CookieConsentProvider, CookieConsentBanner, CookieSettingsButton } from "@/components/cookie-consent";
+import { DemoBanner } from "@/components/demo-banner";
+
+const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -62,11 +65,12 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable} ${barlowCondensed.variable}`}
+        className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable} ${barlowCondensed.variable}${isDemoMode ? " body-demo-mode" : ""}`}
       >
         <a href="#main-content" className="skip-link">
           Zum Inhalt springen
         </a>
+        {isDemoMode && <DemoBanner />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
