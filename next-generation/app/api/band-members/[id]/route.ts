@@ -1,16 +1,7 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { deleteImageFromUrl } from "@/lib/supabase/storage";
-
-async function requireAuth() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) {
-    return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
-  }
-  return null;
-}
+import { requireRole } from "@/lib/auth";
 
 async function getMemberOrNull(id: string) {
   try {
@@ -32,7 +23,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const authError = await requireAuth();
+    const { error: authError } = await requireRole(["editor", "super_admin"]);
     if (authError) return authError;
 
     const { id } = await params;
@@ -63,7 +54,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const authError = await requireAuth();
+    const { error: authError } = await requireRole(["editor", "super_admin"]);
     if (authError) return authError;
 
     const { id } = await params;
@@ -76,8 +67,6 @@ export async function PUT(
     }
 
     const old = await getMemberOrNull(id);
-
-    console.log("PUT band-member:", { id, oldImageUrl: old?.image_url, newImageUrl: image_url });
 
     const admin = createAdminClient();
     const { data, error } = await admin
@@ -92,10 +81,7 @@ export async function PUT(
     }
 
     if (old?.image_url && old.image_url !== image_url) {
-      console.log("Deleting old image:", old.image_url);
       await deleteImageFromUrl(old.image_url);
-    } else {
-      console.log("Skipping image delete:", { hadOld: !!old?.image_url, urlsMatch: old?.image_url === image_url });
     }
 
     return NextResponse.json(data);

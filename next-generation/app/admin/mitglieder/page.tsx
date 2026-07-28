@@ -234,11 +234,9 @@ export default function AdminMitglieder() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setUploading(true);
-    console.log("handleSubmit CALLED");
 
     try {
       let imageUrl: string | null = existingImageUrl;
-      console.log("handleSubmit state:", { existingImageUrl, imageFile: !!imageFile, editingId, imageUrl });
       if (imageFile) {
         const uploaded = await handleImageUpload(imageFile);
         if (!uploaded) {
@@ -260,8 +258,6 @@ export default function AdminMitglieder() {
           ? members.find((m) => m.id === editingId)?.sort_order ?? members.length
           : members.length,
       });
-      console.log("Sending PUT body:", body);
-
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },

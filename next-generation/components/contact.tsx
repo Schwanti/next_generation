@@ -1,5 +1,5 @@
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
-import { MAILTO_HREF } from "@/lib/constants";
+import { CONTACT_EMAIL, MAILTO_HREF } from "@/lib/constants";
 
 export function ContactSection() {
   return (
@@ -26,6 +26,9 @@ export function ContactSection() {
           <a href={MAILTO_HREF} className="btn btn-accent">
             Jetzt Nachricht senden
           </a>
+          <p style={{ fontSize: "0.85rem", color: "#888", marginTop: "0.5rem" }}>
+            {CONTACT_EMAIL}
+          </p>
         </div>
 
         <div className="contact-card">
@@ -51,6 +54,10 @@ export function ContactSection() {
           </a>
         </div>
       </div>
+
+      <p style={{ textAlign: "center", fontSize: "0.9rem", color: "#999", marginTop: "2rem" }}>
+        ✓ Unverbindliche Anfrage · ✓ Flexible Programmgestaltung
+      </p>
     </section>
   );
 }

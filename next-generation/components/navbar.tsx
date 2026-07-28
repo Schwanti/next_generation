@@ -8,10 +8,17 @@ import { AuthIndicator } from "@/components/auth-indicator";
 
 export function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const isHome = pathname === "/";
   const pendingScroll = useRef<string | null>(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (isHome && pendingScroll.current) {
@@ -34,7 +41,7 @@ export function NavBar() {
   }
 
   return (
-    <nav className="nav">
+    <nav className={`nav${scrolled ? " nav--scrolled" : ""}`}>
       <div className="nav-logo">
         <Link href="/">
           <Image src="/next_generation_logo.png" alt="Logo" width={80} height={45} />

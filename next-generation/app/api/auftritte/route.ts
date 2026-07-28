@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { requireRole } from "@/lib/auth";
 
 export async function GET() {
   try {
@@ -26,12 +27,8 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Nicht autorisiert" }, { status: 401 });
-    }
+    const { user, error: authError } = await requireRole(["editor", "super_admin"]);
+    if (authError) return authError;
 
     const body = await request.json();
     const { date, title, venue, event_type, image_url, featured } = body;

@@ -30,14 +30,33 @@ const barlowCondensed = Barlow_Condensed({
 });
 
 export const metadata: Metadata = {
-  title: "Next Generation - Offizielle Webseite",
-  description: "Die offizielle Webseite der Band Next Generation, einer Coverband aus der Mitte Bayerns. Hier findest du alle Informationen über die Band, ihre Musik, Auftritte und Neuigkeiten.",
+  metadataBase: new URL("https://nextgeneration-live.de"),
+  title: {
+    default: "Next Generation | Coverband Eichstätt – Bayern",
+    template: "%s | Next Generation",
+  },
+  description:
+    "Next Generation – Ihre Coverband für Kirchweih, Bierzelt, Vereinsfeier & Altstadtfest in Eichstätt und ganz Bayern. 8 Musiker, 100+ Events, knalliger Partyrock.",
+  keywords: [
+    "Coverband Eichstätt",
+    "Coverband Bayern",
+    "Live-Musik Kirchweih",
+    "Partyband buchen",
+    "Bierzelt Band",
+    "Hochzeitsband Bayern",
+    "Partyrock Band",
+  ],
   openGraph: {
-    title: "Next Generation - Coverband aus Bayern",
+    title: "Next Generation | Coverband Eichstätt – Bayern",
     description: "Party Musik Live aus Eichstätt – Coverband für Hochzeiten, Bierzelte und private Feiern in Bayern.",
+    images: [{ url: "/next_generation_logo.png", width: 500, height: 267 }],
     type: "website",
     locale: "de_DE",
     siteName: "Next Generation",
+    url: "https://nextgeneration-live.de",
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
@@ -45,16 +64,24 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "MusicGroup",
   name: "Next Generation",
-  genre: "Coverband",
+  url: "https://nextgeneration-live.de",
+  image: "/next_generation_logo.png",
+  genre: ["Coverband", "Partyrock", "Rock"],
+  description: "Party Musik Live aus Eichstätt – Coverband für Hochzeiten, Bierzelte und private Feiern in Bayern.",
   location: {
     "@type": "Place",
+    name: "Eichstätt",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Eichstätt",
+      addressRegion: "Bayern",
       addressCountry: "DE",
     },
   },
-  description: "Party Musik Live aus Eichstätt – Coverband für Hochzeiten, Bierzelte und private Feiern in Bayern.",
+  sameAs: [
+    "https://instagram.com/nextgeneration_band",
+    "https://www.nextgeneration-live.de",
+  ],
 };
 
 export default function RootLayout({

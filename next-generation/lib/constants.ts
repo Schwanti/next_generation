@@ -2,6 +2,8 @@ export const CONTACT_EMAIL = "info@nextgeneration-live.de";
 
 export const BOOKING_EMAIL = "booking@nextgeneration-live.de";
 
+export const PHONE_NUMBER = "+49 8421 234567";
+
 const TEMPLATE = `--- Buchungsanfrage ---
 
 Name / Verein:

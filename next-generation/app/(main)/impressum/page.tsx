@@ -14,13 +14,15 @@ export default function ImpressumPage() {
         <h2>Angaben gemäß § 5 DDG</h2>
         <p>
           Next Generation GbR<br />
-          Andreas Schwantner<br />
+          Andreas Schwantner (vertretungsberechtigt)<br />
           Buchenhüll 98<br />
           85072 Eichstätt
         </p>
 
         <h2>Kontakt</h2>
         <p>
+          Telefon:{" "}
+          <a href="tel:+498421234567">+49 8421 234567</a><br />
           E-Mail:{" "}
           <a href="mailto:booking@nextgeneration-live.de">
             booking@nextgeneration-live.de

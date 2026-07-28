@@ -5,9 +5,9 @@ import { createClient } from "@/lib/supabase/client";
 
 export function AuthIndicator() {
   const [session, setSession] = useState<{ email: string; role: string } | null>(null);
-  const supabase = createClient();
 
   useEffect(() => {
+    const supabase = createClient();
     supabase.auth.getSession()
       .then(({ data: { session: s } }) => {
         if (s?.user) {

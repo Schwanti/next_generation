@@ -27,6 +27,8 @@ export function Hero() {
 
       <div className="hero-content">
         <Image src="/next_generation_logo.png" alt="Next Generation" width={500} height={267} className="hero-logo" />
+        <h1 className="hero-title">Live-Musik für Ihr Fest</h1>
+        <p className="hero-subtitle">Coverband aus Eichstätt — 8 Musiker, über 100 Auftritte in ganz Bayern</p>
         <div className="hero-buttons">
           <a href="#kontakt" className="btn btn-primary">Buchen</a>
         </div>

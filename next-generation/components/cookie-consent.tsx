@@ -41,14 +41,18 @@ const allConsent: CookieConsent = {
   marketing: true,
 };
 
-function readConsent(): CookieConsent | null {
+function readStoredConsent(): StoredConsent | null {
   if (typeof window === "undefined") return null;
   try {
     const stored = localStorage.getItem(CONSENT_KEY);
     if (!stored) return null;
-    const parsed = JSON.parse(stored);
+    const parsed = JSON.parse(stored) as StoredConsent;
     if (typeof parsed === "object" && parsed !== null && "essential" in parsed) {
-      return parsed as CookieConsent;
+      if (parsed.version !== CONSENT_VERSION) {
+        localStorage.removeItem(CONSENT_KEY);
+        return null;
+      }
+      return parsed;
     }
   } catch {
     // invalid data
@@ -56,11 +60,18 @@ function readConsent(): CookieConsent | null {
   return null;
 }
 
+function readConsent(): CookieConsent | null {
+  const stored = readStoredConsent();
+  if (!stored) return null;
+  const { timestamp, version, ...consent } = stored;
+  return consent;
+}
+
 export function CookieConsentProvider({ children }: { children: ReactNode }) {
   const [consent, setConsent] = useState<CookieConsent | null>(readConsent);
   const [showBanner, setShowBanner] = useState(() => {
     if (typeof window === "undefined") return true;
-    return localStorage.getItem(CONSENT_KEY) === null;
+    return readStoredConsent() === null;
   });
 
   const giveConsent = useCallback((c: CookieConsent) => {
