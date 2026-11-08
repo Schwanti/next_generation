@@ -4,7 +4,7 @@
  * axes: paper dark · display condensed caps · accent the logo's red · radius 0 · motion one clip wipe · density loose · contrast: pass · fold: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H5 E4 S4 R4 V4 · weakest: S, three occasions could be any band's; set them as a numbered record in Anton so they read as the band's own programme, not icon tiles */
 /* Hallmark · waive 38iii · the red word "Fest" inside the hero head, once on the page · Manifesto names the single red hero word as its signature and it echoes the red X of the band's logo */
-/* Hallmark · waive 55b · hero head lines are separate nowrap spans sized so "Live-Musik" fits a 320px phone, leaded at 0.9 · each line is locked and cannot wrap */
+/* Hallmark · waive 55b · hero head and the repertoire poster line are separate nowrap spans sized so "Live-Musik" fits a 320px phone, leaded at 0.9 · each line is locked and cannot wrap */
 /* Hallmark · dropped .scroll-indicator, .particles, .light-beam, the hero logo · the scroll cue link to #services now lives as the hero's second action "Was wir bieten"; the logo stays in the nav and the footer mast */
 /* Hallmark · dropped eyebrows "Was wir bieten", "Auftritte", "Die Band", "Auf Instagram", "Kontakt" · 54 names the eyebrow; each section keeps its own heading */
 /* Hallmark · reworded en and em dashes to colons and full stops in the hero, services and contact copy · 19 names the dash; "✓ … · ✓ …" became a two-item list (63, 30a) */
@@ -328,7 +328,32 @@ main { display: block; }
   .record-body { grid-column: 3 / -1; }
 }
 
-/* ───────── Figures: the poster line ───────── */
+/* ───────── Repertoire: the poster line ───────── */
+
+.repertoire-section { padding-block: var(--section-gap-s) var(--section-gap); }
+.repertoire-line {
+  max-width: none;
+  font-size: min(23.5cqi, 22rem);
+  line-height: var(--lh-tight);
+  container-type: normal;
+}
+.repertoire-section .container { container-type: inline-size; }
+.repertoire-line > span { display: block; white-space: nowrap; }
+.repertoire-styles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-md) var(--gap-columns);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-md);
+  border-top: var(--rule-hair) solid var(--color-rule);
+  list-style: none;
+  font-size: var(--text-lead);
+  color: var(--color-ink-2);
+}
+@media (max-width: 60rem) { .repertoire-styles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .repertoire-styles { grid-template-columns: minmax(0, 1fr); } }
+
+/* ───────── Figures ───────── */
 
 .figures-section {
   padding-block: var(--section-gap-s);

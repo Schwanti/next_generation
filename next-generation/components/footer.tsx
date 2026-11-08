@@ -33,7 +33,15 @@ export function Footer() {
               rel="noopener noreferrer"
               className="footer-link"
             >
-              @nextgeneration_band
+              Instagram: @nextgeneration_band
+            </a>
+            <a
+              href="https://www.facebook.com/nextgenerationlive"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-link"
+            >
+              Facebook: nextgenerationlive
             </a>
           </div>
         </div>

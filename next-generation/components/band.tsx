@@ -62,7 +62,8 @@ export function BandSection() {
           <h2 className="band-title">Lerne uns kennen</h2>
           <p className="band-subtitle lead">
             &bdquo;Next Generation&ldquo; ist eine Coverband aus dem Raum Eichstätt mit
-            musikalischem Schwerpunkt auf Rock- und Popmusik.
+            musikalischem Schwerpunkt auf Rock- und Popmusik. 8 Vollblut-MusikerInnen,
+            die jeden zum Tanzen bringen, egal ob Jung oder Alt.
           </p>
         </div>
 

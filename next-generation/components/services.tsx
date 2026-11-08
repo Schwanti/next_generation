@@ -14,6 +14,12 @@ const services = [
     featured: false,
   },
   {
+    id: "fasching",
+    title: "Fasching & Bälle",
+    description: "Feuerwehrball, Ball der Vereine oder Rosenmontag: Tanzmusik und Partyrock für die närrische Zeit.",
+    featured: false,
+  },
+  {
     id: "stadtfest",
     title: "Brauerei- & Altstadtfeste",
     description: "Von AC/DC bis zu den aktuellen Charts: Classic Rock und Partykracher für Ihr Publikum.",
@@ -54,6 +60,21 @@ export function ServicesPage() {
             <Link href="#kontakt">Kontaktieren Sie uns</Link> und wir planen das Programm
             ganz speziell nach Ihren Wünschen.
           </p>
+        </div>
+      </section>
+
+      <section className="repertoire-section" aria-labelledby="repertoire-title">
+        <div className="container">
+          <h2 id="repertoire-title" className="repertoire-line">
+            <span>Von AC/DC</span>
+            <span>bis ZZ Top</span>
+          </h2>
+          <ul className="repertoire-styles">
+            <li>Aktuelle Nummern aus den Charts</li>
+            <li>Tanzmusik für alle Generationen</li>
+            <li>Classic und Cover Rock</li>
+            <li>Knalliger Partyrock</li>
+          </ul>
         </div>
       </section>
 

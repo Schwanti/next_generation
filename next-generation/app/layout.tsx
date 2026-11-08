@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | Next Generation",
   },
   description:
-    "Next Generation – Ihre Coverband für Kirchweih, Bierzelt, Vereinsfeier & Altstadtfest in Eichstätt und ganz Bayern. 8 Musiker, 100+ Events, knalliger Partyrock.",
+    "Next Generation – Ihre Coverband für Kirchweih, Bierzelt, Fasching, Vereinsfeier & Altstadtfest in Eichstätt und ganz Bayern. Von AC/DC bis ZZ Top: 8 Musiker, 100+ Events, knalliger Partyrock.",
   keywords: [
     "Coverband Eichstätt",
     "Coverband Bayern",
@@ -37,6 +37,8 @@ export const metadata: Metadata = {
     "Bierzelt Band",
     "Hochzeitsband Bayern",
     "Partyrock Band",
+    "Faschingsband",
+    "Band Feuerwehrball",
   ],
   openGraph: {
     title: "Next Generation | Coverband Eichstätt – Bayern",
@@ -58,7 +60,7 @@ const jsonLd = {
   name: "Next Generation",
   url: "https://nextgeneration-live.de",
   image: "/next_generation_logo.png",
-  genre: ["Coverband", "Partyrock", "Rock"],
+  genre: ["Coverband", "Partyrock", "Rock", "Pop"],
   description: "Party Musik Live aus Eichstätt – Coverband für Hochzeiten, Bierzelte und private Feiern in Bayern.",
   location: {
     "@type": "Place",
@@ -72,6 +74,7 @@ const jsonLd = {
   },
   sameAs: [
     "https://instagram.com/nextgeneration_band",
+    "https://www.facebook.com/nextgenerationlive",
     "https://www.nextgeneration-live.de",
   ],
 };
