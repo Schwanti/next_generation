@@ -3,42 +3,32 @@ import Image from "next/image";
 export function Hero() {
   return (
     <section id="hero" className="hero-section">
-      <div className="background-overlay" />
-      <div className="light-beam beam-1" />
-      <div className="light-beam beam-2" />
-      <div className="light-beam beam-3" />
-
-      <div className="particles">
-        {[...Array(12)].map((_, i) => (
-          <div
-            key={i}
-            className="particle"
-            style={{
-              left: `${8 + i * 8}%`,
-              width: `${2 + (i % 4)}px`,
-              height: `${2 + (i % 4)}px`,
-              background: i % 3 === 0 ? 'rgba(255,180,80,0.7)' : i % 3 === 1 ? 'rgba(200,120,255,0.6)' : 'rgba(255,255,255,0.5)',
-              animationDuration: `${6 + (i * 1.3)}s`,
-              animationDelay: `${i * 0.7}s`,
-            }}
-          />
-        ))}
+      <div className="hero-photo">
+        <Image
+          src="/background_picture.png"
+          alt="Next Generation live im Festzelt, das Publikum mit erhobenen Händen vor der Bühne"
+          fill
+          priority
+          sizes="100vw"
+          className="hero-photo-img"
+        />
       </div>
 
-      <div className="hero-content">
-        <Image src="/next_generation_logo.png" alt="Next Generation" width={500} height={267} className="hero-logo" />
-        <h1 className="hero-title">Live-Musik für Ihr Fest</h1>
-        <p className="hero-subtitle">Coverband aus Eichstätt — 8 Musiker, über 100 Auftritte in ganz Bayern</p>
-        <div className="hero-buttons">
-          <a href="#kontakt" className="btn btn-primary">Buchen</a>
+      <div className="hero-content container">
+        <h1 className="hero-title">
+          <span>Live-Musik</span>
+          <span>für Ihr <span className="hot">Fest</span></span>
+        </h1>
+        <div className="hero-foot">
+          <p className="hero-subtitle lead">
+            Coverband aus Eichstätt: 8 Musiker, über 100 Auftritte in ganz Bayern.
+          </p>
+          <div className="hero-buttons">
+            <a href="#kontakt" className="btn btn-primary">Buchen</a>
+            <a href="#services" className="btn btn-ghost">Was wir bieten</a>
+          </div>
         </div>
       </div>
-
-      <a href="#services" className="scroll-indicator">
-        <svg viewBox="0 0 24 24" strokeWidth="2">
-          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </a>
     </section>
   );
 }

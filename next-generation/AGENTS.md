@@ -29,14 +29,14 @@ npm run lint   # ESLint
 
 - Next.js 16 (App Router)
 - React 19
-- Tailwind CSS v4 (configured via `@tailwindcss/postcss`)
-- Geist fonts (via next/font/google)
+- Plain CSS design system (no Tailwind): `app/tokens.css` (colours, fonts, spacing), `app/base.css` (resets), `app/styles.css` (components)
+- Anton (display) + Public Sans (body) via next/font/google; design follows the Hallmark "Manifesto" theme (dark sheet, off-white ink, one brand red)
 
 ## Conventions
 
 - Components use **named exports** (`export function ComponentName()`)
 - Client components require `"use client"` directive
-- Global styles: `app/styles.css` (custom styles), `app/globals.css` (Tailwind imports)
+- Styles: only use `var(--…)` tokens from `app/tokens.css`, no literal colours or font-families in components
 - NavBar lives in `layout.tsx`, not inside page components
 
 ## Pending Features

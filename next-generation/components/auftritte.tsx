@@ -52,15 +52,18 @@ export function Auftritte() {
 
   if (loading) return null;
 
+  const header = (subtitle: string) => (
+    <div className="auftritte-header split-head">
+      <h2 className="auftritte-title">Nächste Termine</h2>
+      <p className="auftritte-subtitle lead">{subtitle}</p>
+    </div>
+  );
+
   if (error) {
     return (
       <section id="auftritte" className="auftritte-section">
-        <div className="auftritte-header">
-          <p className="auftritte-label">Auftritte</p>
-          <h2 className="auftritte-title">Nächste Termine</h2>
-          <p className="auftritte-subtitle">
-            Die Termine konnten gerade nicht geladen werden. Bitte versuch es später nochmal.
-          </p>
+        <div className="container">
+          {header("Die Termine konnten gerade nicht geladen werden. Bitte versuch es später nochmal.")}
         </div>
       </section>
     );
@@ -73,16 +76,14 @@ export function Auftritte() {
   if (!hasAny) {
     return (
       <section id="auftritte" className="auftritte-section">
-        <div className="auftritte-header">
-          <p className="auftritte-label">Auftritte</p>
-          <h2 className="auftritte-title">Nächste Termine</h2>
-          <p className="auftritte-subtitle">
-            Derzeit sind keine Termine geplant.
-          </p>
-          <p className="auftritte-empty-text">
-            Für Buchungsanfragen kontaktiere uns gerne.
-          </p>
-          <a href="#kontakt" className="btn btn-accent">Jetzt anfragen</a>
+        <div className="container">
+          {header("Derzeit sind keine Termine geplant.")}
+          <div className="auftritte-cta">
+            <p className="auftritte-empty-text">
+              Für Buchungsanfragen kontaktiere uns gerne.
+            </p>
+            <a href="#kontakt" className="btn btn-primary">Jetzt anfragen</a>
+          </div>
         </div>
       </section>
     );
@@ -90,74 +91,71 @@ export function Auftritte() {
 
   return (
     <section id="auftritte" className="auftritte-section">
-      <div className="auftritte-header">
-        <p className="auftritte-label">Auftritte</p>
-        <h2 className="auftritte-title">Nächste Termine</h2>
-        <p className="auftritte-subtitle">
-          Hier siehst du alle unsere kommenden und vergangenen Auftritte.
-        </p>
-      </div>
+      <div className="container">
+        {header("Hier siehst du alle unsere kommenden und vergangenen Auftritte.")}
 
-      <div className="auftritte-list">
-        {upcoming.map((gig) => (
-          <div key={gig.id} className={`auftritte-card upcoming${gig.featured ? " featured" : ""}`}>
-            <div className="auftritte-card-top">
-              <span className="auftritte-date">{formatDate(gig.date)}</span>
-              <div className="auftritte-badges">
-                <span className="auftritte-badge">Bevorstehend</span>
-              </div>
-            </div>
-            <h3 className="auftritte-card-title">{gig.title}</h3>
-            <p className="auftritte-venue">{gig.venue}</p>
-            <span className="auftritte-type">{gig.event_type}</span>
-          </div>
-        ))}
-      </div>
-
-      {hasPast && (
-        <>
-          <h3 className="auftritte-past-title">Vergangene Auftritte</h3>
-          <div className="auftritte-list">
-            {visiblePast.map((gig) => (
-              <div key={gig.id} className={`auftritte-card past${gig.featured ? " featured" : ""}`}>
-                <div className="auftritte-card-top">
-                  <span className="auftritte-date">{formatDate(gig.date)}</span>
-                  <div className="auftritte-badges">
-                    <span className="auftritte-badge past-badge">Vergangen</span>
-                  </div>
-                </div>
+        <ul className="auftritte-list">
+          {upcoming.map((gig) => (
+            <li key={gig.id} className={`auftritte-card upcoming${gig.featured ? " featured" : ""}`}>
+              <time className="auftritte-date num" dateTime={gig.date}>{formatDate(gig.date)}</time>
+              <div className="auftritte-main">
                 <h3 className="auftritte-card-title">{gig.title}</h3>
                 <p className="auftritte-venue">{gig.venue}</p>
-                <span className="auftritte-type">{gig.event_type}</span>
-                {gig.image_url && (
-                  <img
-                    src={gig.image_url}
-                    alt={`${gig.title} - ${gig.venue}`}
-                    className="auftritte-image"
-                    loading="lazy"
-                  />
-                )}
               </div>
-            ))}
-          </div>
-          {past.length > 3 && (
-            <div className="auftritte-toggle">
-              <button
-                className="btn btn-ghost"
-                onClick={() => setShowAllPast(!showAllPast)}
-              >
-                {showAllPast
-                  ? "Weniger anzeigen"
-                  : `Alle vergangenen Auftritte anzeigen (${past.length})`}
-              </button>
-            </div>
-          )}
-        </>
-      )}
+              <p className="auftritte-meta">
+                <span className="auftritte-type">{gig.event_type}</span>
+                <span className="auftritte-badge">Bevorstehend</span>
+              </p>
+            </li>
+          ))}
+        </ul>
 
-      <div className="auftritte-cta">
-        <p className="cta-text">Lust uns zu buchen?</p>
-        <a href="#kontakt" className="btn btn-accent">Jetzt anfragen</a>
+        {hasPast && (
+          <>
+            <h3 className="auftritte-past-title">Vergangene Auftritte</h3>
+            <ul className="auftritte-list auftritte-list--past">
+              {visiblePast.map((gig) => (
+                <li key={gig.id} className={`auftritte-card past${gig.featured ? " featured" : ""}`}>
+                  <time className="auftritte-date num" dateTime={gig.date}>{formatDate(gig.date)}</time>
+                  <div className="auftritte-main">
+                    <h4 className="auftritte-card-title">{gig.title}</h4>
+                    <p className="auftritte-venue">{gig.venue}</p>
+                  </div>
+                  <p className="auftritte-meta">
+                    <span className="auftritte-type">{gig.event_type}</span>
+                    <span className="auftritte-badge past-badge">Vergangen</span>
+                  </p>
+                  {gig.image_url && (
+                    <img
+                      src={gig.image_url}
+                      alt={`${gig.title} - ${gig.venue}`}
+                      className="auftritte-image"
+                      loading="lazy"
+                    />
+                  )}
+                </li>
+              ))}
+            </ul>
+            {past.length > 3 && (
+              <div className="auftritte-toggle">
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => setShowAllPast(!showAllPast)}
+                  aria-expanded={showAllPast}
+                >
+                  {showAllPast
+                    ? "Weniger anzeigen"
+                    : `Alle ${past.length} anzeigen`}
+                </button>
+              </div>
+            )}
+          </>
+        )}
+
+        <div className="auftritte-cta">
+          <p className="cta-text">Lust uns zu buchen?</p>
+          <a href="#kontakt" className="btn btn-primary">Jetzt anfragen</a>
+        </div>
       </div>
     </section>
   );

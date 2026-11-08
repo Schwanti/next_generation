@@ -41,12 +41,12 @@ export default function AdminRegister() {
       <div className="admin-login-page">
         <div className="admin-login-card">
           <h1>Registrierung erfolgreich</h1>
-          <p style={{ marginBottom: "1.5rem", color: "#555", lineHeight: "1.6" }}>
+          <p className="admin-login-text">
             Dein Account wurde angelegt. Bitte bestätige zuerst deine E-Mail
             (Link im Postfach), sobald ein Admin dich freigeschaltet hat,
             kannst du dich anmelden.
           </p>
-          <Link href="/admin/login" className="btn btn-accent" style={{ textAlign: "center", display: "block" }}>
+          <Link href="/admin/login" className="btn btn-accent btn-block">
             Zum Login
           </Link>
         </div>
@@ -77,17 +77,16 @@ export default function AdminRegister() {
             minLength={8}
             autoComplete="new-password"
           />
-          <label style={{ display: "flex", alignItems: "flex-start", gap: "0.5rem", fontSize: "0.85rem", color: "#ccc", lineHeight: "1.4", cursor: "pointer", marginTop: "0.25rem" }}>
+          <label className="admin-consent">
             <input
               type="checkbox"
               checked={privacyAccepted}
               onChange={(e) => setPrivacyAccepted(e.target.checked)}
               required
-              style={{ marginTop: "0.15rem", accentColor: "#e53e1a" }}
             />
             <span>
               Ich akzeptiere die{" "}
-              <a href="/datenschutz" target="_blank" rel="noopener noreferrer" style={{ color: "#e53e1a" }}>
+              <a href="/datenschutz" target="_blank" rel="noopener noreferrer">
                 Datenschutzerklärung
               </a>
             </span>
@@ -97,8 +96,8 @@ export default function AdminRegister() {
             {loading ? "Wird registriert..." : "Registrieren"}
           </button>
         </form>
-        <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "#888", textAlign: "center" }}>
-          Bereits registriert? <Link href="/admin/login" style={{ color: "#e53e1a" }}>Zum Login</Link>
+        <p className="admin-login-alt">
+          Bereits registriert? <Link href="/admin/login">Zum Login</Link>
         </p>
       </div>
     </div>

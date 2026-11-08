@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Barlow, Barlow_Condensed } from "next/font/google";
+import { Anton, Public_Sans } from "next/font/google";
+import "./tokens.css";
+import "./base.css";
 import "./globals.css";
 import "./styles.css";
 import { CookieConsentProvider, CookieConsentBanner, CookieSettingsButton } from "@/components/cookie-consent";
@@ -7,26 +9,16 @@ import { DemoBanner } from "@/components/demo-banner";
 
 const isDemoMode = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const anton = Anton({
+  variable: "--font-anton",
   subsets: ["latin"],
+  weight: "400",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const publicSans = Public_Sans({
+  variable: "--font-public-sans",
   subsets: ["latin"],
-});
-
-const barlow = Barlow({
-  variable: "--font-barlow",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const barlowCondensed = Barlow_Condensed({
-  variable: "--font-barlow-condensed",
-  subsets: ["latin"],
-  weight: ["700", "800", "900"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -90,9 +82,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de">
+    <html lang="de" className={`${anton.variable} ${publicSans.variable}`}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${barlow.variable} ${barlowCondensed.variable}${isDemoMode ? " body-demo-mode" : ""}`}
+        className={isDemoMode ? "body-demo-mode" : undefined}
       >
         <a href="#main-content" className="skip-link">
           Zum Inhalt springen

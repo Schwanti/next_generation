@@ -14,23 +14,19 @@ function InitialsAvatar({ name }: { name: string }) {
 
   return (
     <svg
-      width={200}
-      height={200}
+      className="band-member-initials"
       viewBox="0 0 200 200"
       xmlns="http://www.w3.org/2000/svg"
       role="img"
       aria-label={name}
     >
-      <rect width="200" height="200" rx="100" fill="#e53e1a" />
+      <rect width="200" height="200" className="initials-bg" />
       <text
         x="100"
-        y="108"
+        y="112"
         textAnchor="middle"
         dominantBaseline="middle"
-        fill="#ffffff"
-        fontSize="72"
-        fontWeight="700"
-        fontFamily="var(--font-barlow), sans-serif"
+        className="initials-text"
       >
         {initials}
       </text>
@@ -61,48 +57,51 @@ export function BandSection() {
 
   return (
     <section id="band" className="band-section">
-      <p className="band-label">Die Band</p>
-      <h2 className="band-title">Lerne uns kennen</h2>
-      <p className="band-subtitle">
-        &bdquo;Next Generation&rdquo; ist eine Coverband aus dem Raum Eichstätt mit
-        musikalischem Schwerpunkt auf Rock- und Popmusik.
-      </p>
+      <div className="container">
+        <div className="band-header split-head">
+          <h2 className="band-title">Lerne uns kennen</h2>
+          <p className="band-subtitle lead">
+            &bdquo;Next Generation&ldquo; ist eine Coverband aus dem Raum Eichstätt mit
+            musikalischem Schwerpunkt auf Rock- und Popmusik.
+          </p>
+        </div>
 
-      <div className="band-grid">
-        {loading
-          ? Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="band-member">
-              <div className="band-member-image band-member-skeleton" />
-              <div className="band-member-skeleton-text" />
-              <div className="band-member-skeleton-text band-member-skeleton-small" />
-            </div>
-          ))
-          : error ? (
-            <p style={{ gridColumn: "1 / -1", color: "#666", padding: "2rem 0" }}>
-              Die Bandmitglieder konnten gerade nicht geladen werden. Bitte versuch es später nochmal.
-            </p>
-          )
-          : members.map((member) => (
-            <div key={member.id} className="band-member">
-              <div className="band-member-image">
-                {member.image_url ? (
-                  <Image
-                    src={member.image_url}
-                    alt={member.name}
-                    width={200}
-                    height={200}
-                    className="band-member-avatar"
-                    unoptimized
-                  />
-                ) : (
-                  <InitialsAvatar name={member.name} />
-                )}
+        <div className="band-grid" aria-busy={loading}>
+          {loading
+            ? Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="band-member" aria-hidden="true">
+                <div className="band-member-image band-member-skeleton" />
+                <div className="band-member-skeleton-text" />
+                <div className="band-member-skeleton-text band-member-skeleton-small" />
               </div>
-              <h3 className="band-member-name">{member.name}</h3>
-              <p className="band-member-role">{member.role}</p>
-              <p className="band-member-description">{member.description}</p>
-            </div>
-          ))}
+            ))
+            : error ? (
+              <p className="band-error">
+                Die Bandmitglieder konnten gerade nicht geladen werden. Bitte versuch es später nochmal.
+              </p>
+            )
+            : members.map((member) => (
+              <article key={member.id} className="band-member">
+                <div className="band-member-image">
+                  {member.image_url ? (
+                    <Image
+                      src={member.image_url}
+                      alt={member.name}
+                      width={400}
+                      height={400}
+                      className="band-member-avatar"
+                      unoptimized
+                    />
+                  ) : (
+                    <InitialsAvatar name={member.name} />
+                  )}
+                </div>
+                <h3 className="band-member-name">{member.name}</h3>
+                <p className="band-member-role">{member.role}</p>
+                {member.description && <p className="band-member-description">{member.description}</p>}
+              </article>
+            ))}
+        </div>
       </div>
     </section>
   );

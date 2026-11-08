@@ -96,8 +96,7 @@ export default function AdminUsers() {
             await supabase.auth.signOut();
             router.push("/");
           }}
-          className="btn btn-ghost"
-          style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+          className="btn btn-ghost btn-signout"
         >
           Abmelden
         </button>
@@ -106,7 +105,7 @@ export default function AdminUsers() {
 
       <div className="admin-list">
         <h2>Alle Benutzer ({users.length})</h2>
-        {users.length === 0 && <p style={{ color: "#888" }}>Keine Benutzer gefunden.</p>}
+        {users.length === 0 && <p className="admin-empty">Keine Benutzer gefunden.</p>}
         {users.map((user) => (
           <div key={user.id} className="admin-item">
             <div className="admin-item-info">

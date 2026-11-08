@@ -190,27 +190,27 @@ export default function DatenschutzPage() {
         </p>
 
         <h3>Cookie-Übersicht</h3>
-        <table style={{ width: "100%", borderCollapse: "collapse", margin: "1rem 0" }}>
+        <table className="legal-table">
           <thead>
             <tr>
-              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Cookie</th>
-              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Zweck</th>
-              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Dauer</th>
-              <th style={{ border: "1px solid #555", padding: "0.5rem", textAlign: "left" }}>Rechtsgrundlage</th>
+              <th>Cookie</th>
+              <th>Zweck</th>
+              <th>Dauer</th>
+              <th>Rechtsgrundlage</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}><code>cookie-consent</code></td>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Speicherung Ihrer Cookie-Einstellungen</td>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>1 Jahr</td>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;c DSGVO</td>
+              <td><code>cookie-consent</code></td>
+              <td>Speicherung Ihrer Cookie-Einstellungen</td>
+              <td>1 Jahr</td>
+              <td>Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;c DSGVO</td>
             </tr>
             <tr>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}><code>sb-*-auth-token</code></td>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Authentifizierung für den Admin-Bereich (Supabase)</td>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Session</td>
-              <td style={{ border: "1px solid #555", padding: "0.5rem" }}>Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO</td>
+              <td><code>sb-*-auth-token</code></td>
+              <td>Authentifizierung für den Admin-Bereich (Supabase)</td>
+              <td>Session</td>
+              <td>Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO</td>
             </tr>
           </tbody>
         </table>

@@ -340,16 +340,15 @@ export default function AdminMitglieder() {
               await supabase.auth.signOut();
               router.push("/");
             }}
-            className="btn btn-ghost"
-            style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+            className="btn btn-ghost btn-signout"
           >
             Abmelden
           </button>
           <AuthIndicator />
         </div>
-        <div className="admin-error" style={{ padding: "2rem", textAlign: "center" }}>
+        <div className="admin-error admin-error--block">
           <p>{loadError}</p>
-          <button onClick={() => { setLoadError(null); setLoading(true); loadMembers(); }} className="btn btn-ghost" style={{ marginTop: "1rem" }}>
+          <button onClick={() => { setLoadError(null); setLoading(true); loadMembers(); }} className="btn btn-ghost">
             Erneut versuchen
           </button>
         </div>
@@ -374,8 +373,7 @@ export default function AdminMitglieder() {
             await supabase.auth.signOut();
             router.push("/");
           }}
-          className="btn btn-ghost"
-          style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+          className="btn btn-ghost btn-signout"
         >
           Abmelden
         </button>

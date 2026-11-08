@@ -238,16 +238,15 @@ export default function AdminAuftritte() {
               await supabase.auth.signOut();
               router.push("/");
             }}
-            className="btn btn-ghost"
-            style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+            className="btn btn-ghost btn-signout"
           >
             Abmelden
           </button>
           <AuthIndicator />
         </div>
-        <div className="admin-error" style={{ padding: "2rem", textAlign: "center" }}>
+        <div className="admin-error admin-error--block">
           <p>{loadError}</p>
-          <button onClick={() => { setLoadError(null); setLoading(true); loadPerformances(); }} className="btn btn-ghost" style={{ marginTop: "1rem" }}>
+          <button onClick={() => { setLoadError(null); setLoading(true); loadPerformances(); }} className="btn btn-ghost">
             Erneut versuchen
           </button>
         </div>
@@ -278,8 +277,7 @@ export default function AdminAuftritte() {
             await supabase.auth.signOut();
             router.push("/");
           }}
-          className="btn btn-ghost"
-          style={{ marginLeft: "0.5rem", color: "#e74c3c" }}
+          className="btn btn-ghost btn-signout"
         >
           Abmelden
         </button>
@@ -355,7 +353,7 @@ export default function AdminAuftritte() {
               <strong>{gig.title}</strong>
               <span>{gig.venue}</span>
               <span className="admin-item-type">{gig.event_type}</span>
-              {gig.image_url && <span className="admin-has-image">📷</span>}
+              {gig.image_url && <span className="admin-has-image">mit Bild</span>}
               {gig.featured ? <span className="admin-badge-featured">Hervorgehoben</span> : <span className="admin-badge-default">Standard</span>}
             </div>
             <div className="admin-item-actions">

@@ -41,36 +41,37 @@ export function NavBar() {
   }
 
   return (
-    <nav className={`nav${scrolled ? " nav--scrolled" : ""}`}>
-      <div className="nav-logo">
-        <Link href="/">
-          <Image src="/next_generation_logo.png" alt="Logo" width={80} height={45} />
-        </Link>
+    <nav className={`nav${scrolled ? " nav--scrolled" : ""}${menuOpen ? " nav--open" : ""}`} aria-label="Hauptnavigation">
+      <div className="nav-inner container">
+        <div className="nav-logo">
+          <Link href="/" aria-label="Next Generation, zur Startseite">
+            <Image src="/next_generation_logo.png" alt="Logo" width={80} height={43} priority />
+          </Link>
+        </div>
+
+        <ul id="nav-menu" className={`nav-menu ${menuOpen ? 'open' : ''}`}>
+          <li><a href="#hero" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("hero"); }}>Startseite</a></li>
+          <li><a href="#auftritte" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("auftritte"); }}>Auftritte</a></li>
+          <li><a href="#band" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("band"); }}>Über uns</a></li>
+          <li><a href="#gallery" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("gallery"); }}>Galerie</a></li>
+        </ul>
+
+        <div className="nav-actions">
+          <AuthIndicator />
+          <a href="#kontakt" className="nav-btn nav-btn-primary" onClick={(e) => { e.preventDefault(); navigateTo("kontakt"); }}>Buchen</a>
+          <button
+            className="nav-toggle"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Menü schließen" : "Menü öffnen"}
+            aria-expanded={menuOpen}
+            aria-controls="nav-menu"
+          >
+            <span className="hamburger-line" />
+            <span className="hamburger-line" />
+            <span className="hamburger-line" />
+          </button>
+        </div>
       </div>
-
-      <ul id="nav-menu" className={`nav-menu ${menuOpen ? 'open' : ''}`}>
-        <li><a href="#hero" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("hero"); }}>Startseite</a></li>
-        <li><a href="#auftritte" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("auftritte"); }}>Auftritte</a></li>
-        <li><a href="#band" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("band"); }}>Über uns</a></li>
-        <li><a href="#gallery" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("gallery"); }}>Galerie</a></li>
-      </ul>
-
-      <div className="nav-actions">
-        <a href="#kontakt" className="nav-btn nav-btn-primary" onClick={(e) => { e.preventDefault(); navigateTo("kontakt"); }}>Buchen</a>
-        <AuthIndicator />
-      </div>
-
-      <button
-        className="nav-toggle"
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Menü öffnen"
-        aria-expanded={menuOpen}
-        aria-controls="nav-menu"
-      >
-        <span className="hamburger-line" />
-        <span className="hamburger-line" />
-        <span className="hamburger-line" />
-      </button>
     </nav>
   )
 }

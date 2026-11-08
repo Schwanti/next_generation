@@ -72,8 +72,8 @@ export default function AdminLogin() {
             {loading ? "Wird angemeldet..." : "Anmelden"}
           </button>
         </form>
-        <p style={{ marginTop: "1rem", fontSize: "0.9rem", color: "#888", textAlign: "center" }}>
-          Noch kein Account? <Link href="/admin/register" style={{ color: "#e53e1a" }}>Registrieren</Link>
+        <p className="admin-login-alt">
+          Noch kein Account? <Link href="/admin/register">Registrieren</Link>
         </p>
       </div>
     </div>
