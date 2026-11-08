@@ -54,6 +54,7 @@ export function NavBar() {
           <li><a href="#auftritte" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("auftritte"); }}>Auftritte</a></li>
           <li><a href="#band" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("band"); }}>Über uns</a></li>
           <li><a href="#gallery" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("gallery"); }}>Galerie</a></li>
+          <li><a href="#buchung" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("buchung"); }}>Ablauf &amp; FAQ</a></li>
         </ul>
 
         <div className="nav-actions">
