@@ -17,7 +17,7 @@ export function InstagramGallery() {
             </a>
           </h2>
           <p className="instagram-subtitle lead">
-            Folgt uns für Live-Updates, Backstage-Einblicke und mehr
+            Live-Updates, Einblicke hinter die Bühne und Fotos von unseren Festen.
           </p>
         </div>
 
@@ -30,7 +30,7 @@ export function InstagramGallery() {
           ) : (
             <div className="instagram-placeholder">
               <p>
-                Instagram-Feed wird nur geladen, wenn du den Marketing-Cookies zustimmst.
+                Der Instagram-Feed wird nur geladen, wenn Sie den Marketing-Cookies zustimmen.
               </p>
               <a
                 href="https://instagram.com/nextgeneration_band"
@@ -38,7 +38,7 @@ export function InstagramGallery() {
                 rel="noopener noreferrer"
                 className="btn btn-ghost instagram-placeholder-link"
               >
-                Besuche uns auf Instagram
+                Zu Instagram
               </a>
             </div>
           )}

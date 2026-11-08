@@ -54,7 +54,7 @@ export function Auftritte() {
 
   const header = (subtitle: string) => (
     <div className="auftritte-header split-head">
-      <h2 className="auftritte-title">Nächste Termine</h2>
+      <h2 className="auftritte-title">Termine</h2>
       <p className="auftritte-subtitle lead">{subtitle}</p>
     </div>
   );
@@ -63,7 +63,7 @@ export function Auftritte() {
     return (
       <section id="auftritte" className="auftritte-section">
         <div className="container">
-          {header("Die Termine konnten gerade nicht geladen werden. Bitte versuch es später nochmal.")}
+          {header("Die Termine konnten gerade nicht geladen werden. Bitte versuchen Sie es später noch einmal.")}
         </div>
       </section>
     );
@@ -77,10 +77,10 @@ export function Auftritte() {
     return (
       <section id="auftritte" className="auftritte-section">
         <div className="container">
-          {header("Derzeit sind keine Termine geplant.")}
+          {header("Gerade stehen keine öffentlichen Termine fest.")}
           <div className="auftritte-cta">
             <p className="auftritte-empty-text">
-              Für Buchungsanfragen kontaktiere uns gerne.
+              Ihr Fest könnte das nächste sein.
             </p>
             <a href="#kontakt" className="btn btn-primary">Jetzt anfragen</a>
           </div>
@@ -92,7 +92,7 @@ export function Auftritte() {
   return (
     <section id="auftritte" className="auftritte-section">
       <div className="container">
-        {header("Hier siehst du alle unsere kommenden und vergangenen Auftritte.")}
+        {header("Hier spielen wir als Nächstes. Kommen Sie vorbei und überzeugen Sie sich live.")}
 
         <ul className="auftritte-list">
           {upcoming.map((gig) => (
@@ -112,7 +112,7 @@ export function Auftritte() {
 
         {hasPast && (
           <>
-            <h3 className="auftritte-past-title">Vergangene Auftritte</h3>
+            <h3 className="auftritte-past-title">Zuletzt gespielt</h3>
             <ul className="auftritte-list auftritte-list--past">
               {visiblePast.map((gig) => (
                 <li key={gig.id} className={`auftritte-card past${gig.featured ? " featured" : ""}`}>
@@ -153,7 +153,7 @@ export function Auftritte() {
         )}
 
         <div className="auftritte-cta">
-          <p className="cta-text">Lust uns zu buchen?</p>
+          <p className="cta-text">Ihr Termin fehlt noch?</p>
           <a href="#kontakt" className="btn btn-primary">Jetzt anfragen</a>
         </div>
       </div>

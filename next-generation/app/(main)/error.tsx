@@ -11,7 +11,7 @@ export default function MainError({
     <div className="state-page container">
       <h1 className="state-title">Etwas ist schiefgelaufen</h1>
       <p className="state-text">
-        Leider ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.
+        Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal.
       </p>
       <button onClick={reset} className="btn btn-primary">
         Erneut versuchen

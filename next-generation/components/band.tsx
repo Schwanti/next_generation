@@ -59,11 +59,10 @@ export function BandSection() {
     <section id="band" className="band-section">
       <div className="container">
         <div className="band-header split-head">
-          <h2 className="band-title">Lerne uns kennen</h2>
+          <h2 className="band-title">Die Band</h2>
           <p className="band-subtitle lead">
-            &bdquo;Next Generation&ldquo; ist eine Coverband aus dem Raum Eichstätt mit
-            musikalischem Schwerpunkt auf Rock- und Popmusik. 8 Vollblut-MusikerInnen,
-            die jeden zum Tanzen bringen, egal ob Jung oder Alt.
+            Acht Vollblut-Musikerinnen und -Musiker aus dem Raum Eichstätt, zuhause in
+            Rock und Pop. Egal ob Jung oder Alt: Bei uns wird getanzt.
           </p>
         </div>
 
@@ -78,7 +77,7 @@ export function BandSection() {
             ))
             : error ? (
               <p className="band-error">
-                Die Bandmitglieder konnten gerade nicht geladen werden. Bitte versuch es später nochmal.
+                Die Bandmitglieder konnten gerade nicht geladen werden. Bitte versuchen Sie es später noch einmal.
               </p>
             )
             : members.map((member) => (

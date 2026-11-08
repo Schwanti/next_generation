@@ -4,25 +4,25 @@ const services = [
   {
     id: "festzelt",
     title: "Bierzelt & Kirchweih",
-    description: "Klassische Wiesn-Hits und knalliger Partyrock, der die Stimmung zum Kochen bringt.",
+    description: "Wiesn-Hits und knalliger Partyrock, der die Stimmung im Zelt zum Kochen bringt.",
     featured: true,
   },
   {
     id: "verein",
     title: "Vereins- & Privatfeiern",
-    description: "Geburtstage, Jubiläen, Vereinsfeste: Tanzmusik für alle Generationen, ganz nach Ihren Wünschen.",
+    description: "Geburtstag, Jubiläum oder Vereinsfest: Tanzmusik für alle Generationen, abgestimmt auf Ihre Gäste.",
     featured: false,
   },
   {
     id: "fasching",
     title: "Fasching & Bälle",
-    description: "Feuerwehrball, Ball der Vereine oder Rosenmontag: Tanzmusik und Partyrock für die närrische Zeit.",
+    description: "Feuerwehrball, Ball der Vereine oder Rosenmontag: Tanzmusik und Partyrock bis zum Kehraus.",
     featured: false,
   },
   {
     id: "stadtfest",
     title: "Brauerei- & Altstadtfeste",
-    description: "Von AC/DC bis zu den aktuellen Charts: Classic Rock und Partykracher für Ihr Publikum.",
+    description: "Classic Rock und Partykracher unter freiem Himmel, für ein Publikum, das mitsingt.",
     featured: false,
   },
 ];
@@ -35,8 +35,8 @@ export function ServicesPage() {
           <div className="services-header split-head">
             <h2 className="services-title">Ihr Anlass, unsere Musik</h2>
             <p className="services-subtitle lead">
-              Egal ob Kirchweih, Vereinsfeier, Brauerei- oder Altstadtfest: wir gestalten
-              musikalisch einen unvergesslichen Abend.
+              Ob Bierzelt, Ball oder Vereinsfest: Wir spielen, was Ihr Publikum
+              auf die Tanzfläche bringt.
             </p>
           </div>
 
@@ -56,9 +56,9 @@ export function ServicesPage() {
           </ol>
 
           <p className="services-custom">
-            Sie stellen sich etwas anderes vor?{" "}
-            <Link href="#kontakt">Kontaktieren Sie uns</Link> und wir planen das Programm
-            ganz speziell nach Ihren Wünschen.
+            Ihr Anlass ist nicht dabei?{" "}
+            <Link href="#kontakt">Schreiben Sie uns</Link>, wir stellen das Programm
+            passend zu Ihrem Fest zusammen.
           </p>
         </div>
       </section>
@@ -97,9 +97,9 @@ export function ServicesPage() {
           </dl>
 
           <div className="services-cta">
-            <p className="cta-text">Bereit für Ihr nächstes Event?</p>
+            <p className="cta-text">Bereit für Ihr nächstes Fest?</p>
             <div className="services-actions">
-              <Link href="#auftritte" className="btn btn-ghost">Zu den Auftritten</Link>
+              <Link href="#auftritte" className="btn btn-ghost">Termine ansehen</Link>
               <Link href="#kontakt" className="btn btn-primary">Anfragen</Link>
             </div>
           </div>

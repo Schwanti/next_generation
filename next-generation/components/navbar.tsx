@@ -52,7 +52,7 @@ export function NavBar() {
         <ul id="nav-menu" className={`nav-menu ${menuOpen ? 'open' : ''}`}>
           <li><a href="#hero" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("hero"); }}>Startseite</a></li>
           <li><a href="#auftritte" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("auftritte"); }}>Auftritte</a></li>
-          <li><a href="#band" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("band"); }}>Über uns</a></li>
+          <li><a href="#band" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("band"); }}>Die Band</a></li>
           <li><a href="#gallery" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("gallery"); }}>Galerie</a></li>
           <li><a href="#buchung" className="nav-link" onClick={(e) => { e.preventDefault(); navigateTo("buchung"); }}>Ablauf &amp; FAQ</a></li>
         </ul>

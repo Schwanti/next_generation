@@ -21,7 +21,7 @@ export function Hero() {
         </h1>
         <div className="hero-foot">
           <p className="hero-subtitle lead">
-            Coverband aus Eichstätt: 8 Musiker, über 100 Auftritte in ganz Bayern.
+            Partyrock, Charts und Tanzmusik aus Eichstätt. 8 Musiker, über 100 Auftritte in ganz Bayern.
           </p>
           <div className="hero-buttons">
             <a href="#kontakt" className="btn btn-primary">Buchen</a>

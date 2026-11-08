@@ -16,7 +16,7 @@ export function Footer() {
             <Image src="/next_generation_logo.png" alt="" width={240} height={128} className="footer-logo" />
             <h3 className="footer-title">Next Generation</h3>
             <p className="footer-text">
-              Party Musik Live aus Eichstätt
+              Partymusik live aus Eichstätt
             </p>
           </div>
           <div className="footer-links">

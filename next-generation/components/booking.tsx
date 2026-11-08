@@ -1,19 +1,19 @@
 const steps = [
   {
     title: "Anfrage",
-    text: "Kurze Nachricht mit Veranstaltungsart, Datum und Ort, per Formular oder E-Mail.",
+    text: "Sie schicken uns Veranstaltungsart, Datum und Ort, per Formular oder E-Mail.",
   },
   {
     title: "Angebot",
-    text: "Innerhalb von 24 Stunden kommt ein unverbindliches Angebot von uns.",
+    text: "Innerhalb von 24 Stunden bekommen Sie ein unverbindliches Angebot.",
   },
   {
     title: "Programm",
-    text: "Wir stimmen das Programm ganz nach Ihren Wünschen und Ihrem Publikum ab.",
+    text: "Wir stimmen die Musik auf Ihre Wünsche und Ihr Publikum ab.",
   },
   {
     title: "Auftritt",
-    text: "Wir spielen, Ihre Gäste tanzen. Egal ob Jung oder Alt.",
+    text: "Wir spielen, Ihre Gäste tanzen.",
   },
 ];
 
@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: "Können wir Musikwünsche äußern?",
-    a: "Ja. Wir planen das Programm ganz speziell nach Ihren Wünschen, ob Bierzelt, Ball oder Geburtstag.",
+    a: "Ja. Wir stellen das Programm passend zu Ihrem Fest zusammen, ob Bierzelt, Ball oder Geburtstag.",
   },
   {
     q: "Wo spielt ihr?",
@@ -46,7 +46,7 @@ export function BookingSection() {
       <div className="container">
         <div className="split-head">
           <h2 id="booking-title">So läuft die Buchung</h2>
-          <p className="lead">Vier Schritte von der ersten Nachricht bis zum vollen Tanzboden.</p>
+          <p className="lead">Vier Schritte von der ersten Nachricht bis zur vollen Tanzfläche.</p>
         </div>
 
         <ol className="booking-steps">

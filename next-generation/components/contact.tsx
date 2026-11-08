@@ -6,12 +6,11 @@ export function ContactSection() {
     <section id="kontakt" className="contact-section">
       <div className="container">
         <h2 className="contact-title">
-          <span>Lust auf Live-Musik?</span>
-          <span>Dann buch uns!</span>
+          <span>Holen Sie uns</span>
+          <span>auf Ihr Fest</span>
         </h2>
         <p className="contact-subtitle lead">
-          Schreib uns einfach eine Nachricht. Wir melden uns innerhalb von 24 Stunden
-          mit einem unverbindlichen Angebot.
+          Schreiben Sie uns, wir melden uns mit einem unverbindlichen Angebot.
         </p>
 
         <div className="contact-grid">
@@ -19,8 +18,7 @@ export function ContactSection() {
             <div className="contact-card contact-card--mail">
               <h3>Lieber direkt per E-Mail?</h3>
               <p>
-                Einfach eine kurze Nachricht mit Veranstaltungsart, Datum und Ort. Wir
-                kümmern uns um den Rest.
+                Veranstaltungsart, Datum und Ort genügen. Um den Rest kümmern wir uns.
               </p>
               <a href={MAILTO_HREF} className="contact-mail-link">
                 {BOOKING_EMAIL}
@@ -29,10 +27,9 @@ export function ContactSection() {
             </div>
 
             <div className="contact-card">
-              <h3>Auf Instagram folgen</h3>
+              <h3>Folgen Sie uns</h3>
               <p>
-                Verpass keine Updates und sieh dir unsere aktuellen Storys, Beiträge und
-                Backstage-Einblicke an.
+                Storys, Beiträge und Einblicke hinter die Bühne auf Instagram.
               </p>
               <a
                 href="https://instagram.com/nextgeneration_band"
@@ -46,7 +43,7 @@ export function ContactSection() {
 
             <ul className="contact-facts">
               <li>Unverbindliche Anfrage</li>
-              <li>Flexible Programmgestaltung</li>
+              <li>Programm nach Ihren Wünschen</li>
             </ul>
           </div>
 
